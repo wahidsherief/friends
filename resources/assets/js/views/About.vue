@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <button @click='showInfoModal' class="btn btn-block btn-danger">Edit Info</button>
+                            <button @click='showInfoModal' class="btn btn-xs btn-block btn-info">Edit Info</button>
                         </div>
                     </div>
                 </div>
@@ -58,11 +58,7 @@
         </div>
 
         <modal v-if="showModal">        
-            <div slot="header">
-            Basic Info
-            <button class="modal-default-button" @click="close">close
-                </button>
-            </div>
+            <div slot="header">Edit Your Info</div>
             <div slot="body">
                 <form class="form-horizontal" @submit.prevent='onSubmit'>
                     <div class="form-group">
@@ -161,12 +157,13 @@
                     <div class="form-group">
                         <label class="col-xs-4 control-label">About</label>
                         <div class="col-xs-8">
-                            <textarea v-autosize  v-model='form.about' style="resize:none; overflow:hidden" class="form-control" type="text"></textarea>
+                            <textarea v-autosize  v-model='form.about' maxlength="150" style="resize:none; overflow:hidden" class="form-control" type="text"></textarea>
                             <span class="limiter">{{ charactersLeft }}</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-xs-12">
+                        <div class="col-xs-5 pull-right">
+                            <button class="btn btn-xs btn-danger" @click="close">Cancel</button>
                             <button class="btn btn-xs btn-success pull-right">Update</button>
                         </div>
                     </div>
@@ -204,9 +201,13 @@
         computed: {
             charactersLeft() {
                 var chars = this.form.about.length;
-                var limit = 140;
+                var limit = 150;
 
-                return (limit - chars) + " / " + limit + " characters remaining";
+                if (chars >= limit) {
+                    return "limit reached";
+                } else {
+                    return (limit - chars) + " / " + limit + " CCharacters remaining";
+                }
               }
         },
 

@@ -339,6 +339,10 @@ input[type="color"]:focus,
 }
 
 .limiter {
-    color: red;
+    color: #E74C3C;
     font-style: italic;
+}
+
+.profile-picture > input {
+    display:none
 }
