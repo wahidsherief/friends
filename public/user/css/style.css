@@ -1,0 +1,23 @@
+.no-border {
+	border: 0px !important;
+}
+
+.form-group {
+	margin-bottom: 15px !important;
+}
+
+.form-control{
+	margin-bottom: 0px !important;
+}
+
+.is-danger {
+	color: red;
+}
+
+span.help:empty {
+	display: none;
+}
+
+#head-nav {
+	margin-bottom: 10px;
+}

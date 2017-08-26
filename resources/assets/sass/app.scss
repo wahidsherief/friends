@@ -1,0 +1,344 @@
+.app-container > .navbar {
+	margin-bottom: -20px;
+}
+
+section.feed-area > div.card, section.feed-area > div.post-section {
+	margin-bottom: 10px;
+}
+
+.footer-copyright {
+	font-size: 11px;
+	color: #555;
+}
+
+.comment-title {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+div.card-header {
+	padding: 15px !important;
+}
+
+hr {
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+
+div.post {
+	border-bottom-left-radius: 0px !important;
+	border-bottom-right-radius: 0px !important;
+}
+
+div.comment {
+	background: #F6F7F9;
+	border-top-left-radius: 0px !important;
+	border-top-right-radius: 0px !important;
+	font-size: 13px;
+}
+
+div.card-body {
+	padding: 15px !important;
+	padding-top: 20px !important;
+}
+
+
+ul.nav2 > li.active a {
+	border-bottom: 2px solid #29c75f !important;
+}
+
+.no-border {
+	border: 0px !important;
+}
+
+.input-xs {
+    height: 31px !important;    
+}
+
+.nav2-area {
+	/*display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;*/
+    background: lime;
+}
+
+ul.nav2 > li {
+	font-size: 15px;
+	font-weight: 100;
+	text-align: center;
+}
+
+ul.nav2 > li > a > i.fa{
+	font-size: 18px;
+	font-weight: 100px;
+	margin-bottom: 15px;
+}
+
+.navbar-default {
+	border: none;
+}
+
+.comment {
+	border-bottom-right-radius:0px;
+	border-bottom-left-radius:0px;
+	box-shadow: none;
+}
+
+.comment-section {
+	background : #F6F7F9;
+	padding: 20px;
+	border-top: 1px solid #ddd;
+	border-top-right-radius:0px;
+	border-top-left-radius:0px;
+}
+
+.fa-custom {
+	font-size: 20px
+}
+
+a, a:hover, a:focus, .btn, .btn-link { text-decoration: none !important;} 
+
+button:hover, .btn:hover {
+	transform : none;
+}
+
+.btn-success, .btn-primary, .btn-danger, .btn-warning, .btn-default {
+	border-bottom-color: transparent !important;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+.feelingText {
+	font-size: 14px;
+	font-style: italic;
+	color: gray;
+}
+
+.img-container {
+    position: relative;
+    display: inline-block; /* added */
+    overflow: hidden; /* added */
+}
+
+.img-container img {width:100%;} /* remove if using in grid system */
+
+
+.img-container img:hover {
+    opacity: 0.5
+}
+.img-container:hover a {
+    opacity: 1; /* added */
+    top: 0; /* added */
+    z-index: 500;
+}
+/* added */
+.img-container:hover a span {
+    top: 50%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+}
+/* added */
+.img-container a {
+    display: block;
+    position: absolute;
+    top: -100%;
+    opacity: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    color: inherit;
+}
+
+.preview-image {
+	width: 100%;
+	height: 100px;
+}
+
+.post-image {
+	width: 100%;
+	height: 200px;
+}
+
+.preview-image-container {
+	margin: 2px;
+}
+
+.close {
+	pointer: click;
+}
+
+
+
+.full-image {
+	width: 100%;
+	height: 100%;
+}
+
+/*
+
+.uploadBox {
+    position: relative;
+    padding: 0 1em 1em 1em;
+}
+
+.uploadBox h3 {
+    padding-top: 1em;
+}
+
+.uploadBox .uploadBoxMain {
+    position: relative;
+    margin-bottom: 1em;
+    margin-right: 1em;
+}
+*/
+
+/* Drag and drop */
+.uploadBox .dropArea {
+    /*position: relative;
+    width: 100%;
+    
+    border: 5px dashed #00ADCE;
+    text-align: center;
+    font-size: 2em;
+    padding-top: 80px;*/
+}
+
+
+
+.uploadBox .dropArea input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /*height: 100%;*/
+    opacity: 0;
+} 
+/* End drag and drop */
+
+/* Loader */
+.uploadBox .loader {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    opacity: 0.9;
+}
+
+.uploadBox .loaderImg {
+    border: 9px solid #eee;
+    border-top: 9px solid #00ADCE;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/* End Loader */
+
+.uploadBox .errorMsg {
+    font-size: 2em;
+    color: #a94442;
+}
+
+.uploadBox .successMsg {
+    font-size: 2em;
+    color: #3c763d;
+}
+
+.upload-button-div {
+  position: relative;
+  overflow: hidden;
+}
+
+
+.upload-input {
+	cursor: pointer;
+	position: absolute;
+	font-size: 50px;
+	opacity: 0;
+	right: 0;
+	top: 0;
+}
+
+.profile-img {
+    width: 120px !important;
+    height: 120px !important;
+}
+
+.profile-img-top-nav {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.nav-stacked li {
+    border-bottom : 1px solid #ddd;
+}
+
+.navbar .navbar-collapse .navbar-nav {
+    height: 60px !important;
+}
+
+.navbar .navbar-collapse .navbar-nav > li.navbar-title {
+    padding: 0px;
+}
+
+.nav-tabs {
+    border:none
+}
+
+.nav-tabs > li.active a, .nav-tabs > li.active a:focus, .nav-tabs > li.active a:hover {
+    border-bottom: 1px solid #29c75f;
+}
+
+/*.form-horizontal .control-label {
+    text-align: right !important;
+}*/
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+  border-color: skyblue;
+  box-shadow: none;
+  outline: 0 none;
+}
+
+.limiter {
+    color: red;
+    font-style: italic;
+}
