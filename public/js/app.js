@@ -20242,13 +20242,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var files = e.target.files || e.dataTransfer.files;
             var reader = new FileReader();
+            var x = [];
             reader.onload = function (event) {
-                // this.$set(this.userInfo.profile_pic, event.target.result);
                 _this2.userInfo.profile_pic = event.target.result;
+                x[0] = _this2.userInfo.profile_pic;
             };
             reader.readAsDataURL(files[0]);
-            // this.isCommentImagePreview = true;
-            // this.isImageUploadButtonShow = false;
         }
     }
 });
@@ -20802,6 +20801,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -20865,8 +20867,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_ProfileHeader__ = __webpack_require__(125);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_ProfileHeader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_ProfileHeader__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Post__ = __webpack_require__(156);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CommentInput__ = __webpack_require__(165);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CommentInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_CommentInput__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ProfileHeader__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ProfileHeader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_ProfileHeader__);
 //
 //
 //
@@ -20886,26 +20893,131 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { ProfileHeader: __WEBPACK_IMPORTED_MODULE_0__components_ProfileHeader___default.a },
+    components: { ProfileHeader: __WEBPACK_IMPORTED_MODULE_3__components_ProfileHeader___default.a, CommentInput: __WEBPACK_IMPORTED_MODULE_2__components_CommentInput___default.a },
+
     data: function data() {
         return {
-            userInfo: []
+            posts: []
         };
     },
     created: function created() {
-        this.getUserInfo();
+        var _this = this;
+
+        __WEBPACK_IMPORTED_MODULE_1__models_Post__["a" /* default */].all(function (posts) {
+            return _this.posts = posts;
+        });
     },
 
 
     methods: {
-        getUserInfo: function getUserInfo() {
-            var _this = this;
+        postedOn: function postedOn(post) {
+            return __WEBPACK_IMPORTED_MODULE_0_moment___default()(post.created_at).fromNow();
+        },
+        getComments: function getComments(post, index) {
+            var _this2 = this;
 
-            axios.get('/get_user_info').then(function (response) {
-                return _this.userInfo = response.data;
+            axios.post('getcomments', { id: post.id }).then(function (response) {
+                _this2.$set(_this2.posts, index, Object.assign({}, post, { comments: response.data, total_comments: response.data.length }));
+            });
+            // this.selectedPostIndex = index;
+            post.toggleComments = !post.toggleComments;
+        },
+        getCommentsByInsert: function getCommentsByInsert(post, index) {
+            var _this3 = this;
+
+            axios.post('getcomments', { id: post.id }).then(function (response) {
+                _this3.$set(_this3.posts, index, Object.assign({}, post, { comments: response.data, total_comments: response.data.length }));
+            });
+        },
+        react: function react(post, index) {
+            var _this4 = this;
+
+            axios.post('react', { id: post.id }).then(function (response) {
+                _this4.$set(_this4.posts, index, Object.assign({}, post, { reacts: response.data }));
             });
         }
     }
@@ -22677,7 +22789,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         staticClass: "media-heading"
       }, [_c('p', [_c('span', {
         staticClass: "comment-title"
-      }, [_vm._v(_vm._s(comment.user.name))]), _vm._v(" "), _c('span', [_vm._v("  " + _vm._s(comment.comment))])])]), _vm._v(" "), (comment.comment_image != '') ? _c('div', {
+      }, [_vm._v("\n                                            " + _vm._s(comment.user.firstname) + "\n                                            " + _vm._s(comment.user.lastname) + "\n                                        ")]), _vm._v(" "), _c('span', [_vm._v("  " + _vm._s(comment.comment))])])]), _vm._v(" "), (comment.comment_image != '') ? _c('div', {
         staticClass: "row media-content"
       }, [_c('div', {
         staticClass: "col-xs-3"
@@ -22919,22 +23031,141 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', [_c('profile-header'), _vm._v(" "), _c('br'), _vm._v(" "), _vm._m(0)], 1)
+  return _c('section', {
+    staticClass: "feed-area"
+  }, [_c('profile-header'), _vm._v(" "), _c('br'), _vm._v(" "), _vm._l((_vm.posts), function(post, index) {
+    return _c('div', {
+      staticClass: "post-section"
+    }, [_c('div', {
+      staticClass: "card post",
+      style: ({
+        background: post.color
+      })
+    }, [_c('div', {
+      staticClass: "card-body"
+    }, [_c('div', {
+      staticClass: "media social-post"
+    }, [_vm._m(0, true), _vm._v(" "), _c('div', {
+      staticClass: "media-body"
+    }, [_c('div', {
+      staticClass: "media-heading"
+    }, [_c('h4', {
+      staticClass: "title"
+    }, [_vm._v("\n                                " + _vm._s(post.name) + "\n                                "), (post.mood != null) ? _c('span', {
+      staticClass: "feelingText"
+    }, [_vm._v("is feeling -- " + _vm._s(post.mood))]) : _vm._e()]), _vm._v(" "), _c('h5', {
+      staticClass: "timeing"
+    }, [_vm._v(_vm._s(_vm.postedOn(post)))])]), _vm._v(" "), _c('div', {
+      staticClass: "media-content"
+    }, [_vm._v(_vm._s(post.body))]), _vm._v(" "), (post.images != null) ? _c('div', {
+      staticClass: "media-content"
+    }, [_c('div', {
+      staticClass: "row img-container"
+    }, _vm._l((post.images), function(src) {
+      return _c('div', [_c('div', {
+        staticClass: "col-xs-3"
+      }, [_c('div', {
+        staticClass: "row"
+      }, [_c('div', {
+        staticClass: "post-image"
+      }, [_c('img', {
+        staticClass: "rounded float-left img-fluid full-image",
+        attrs: {
+          "src": src,
+          "alt": "image"
+        }
+      })])])])])
+    }))]) : _vm._e(), _vm._v(" "), _c('div', {
+      staticClass: "media-action"
+    }, [_c('button', {
+      staticClass: "btn btn-link",
+      on: {
+        "click": function($event) {
+          _vm.react(post, index)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-thumbs-up fa-custom"
+    }), _vm._v(" "), (post.reacts > 0) ? _c('span', [_vm._v("  " + _vm._s(post.reacts) + " Reactions ")]) : _c('span', [_c('strong', [_vm._v("Like")])])]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-link",
+      on: {
+        "click": function($event) {
+          _vm.getComments(post, index)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-comments fa-custom"
+    }), _vm._v("\n                             \n                            "), (post.total_comments > 0) ? _c('span', [_vm._v("  " + _vm._s(post.total_comments) + " Comments ")]) : _c('span', [_c('strong', [_vm._v("Comment")])])])])])])])]), _vm._v(" "), (post.toggleComments) ? _c('div', [_vm._l((post.comments), function(comment) {
+      return _c('div', {
+        staticClass: "card comment"
+      }, [_c('div', {
+        staticClass: "card-body"
+      }, [_c('div', {
+        staticClass: "media social-post"
+      }, [_vm._m(1, true), _vm._v(" "), _c('div', {
+        staticClass: "col-xs-8"
+      }, [_c('div', {
+        staticClass: "media-body"
+      }, [_c('div', {
+        staticClass: "media-heading"
+      }, [_c('p', [_c('span', {
+        staticClass: "comment-title"
+      }, [_vm._v("\n                                            " + _vm._s(comment.user.firstname) + " \n                                            " + _vm._s(comment.user.lastname) + "\n                                        ")]), _vm._v(" "), _c('span', [_vm._v("  " + _vm._s(comment.comment))])])]), _vm._v(" "), (comment.comment_image != '') ? _c('div', {
+        staticClass: "row media-content"
+      }, [_c('div', {
+        staticClass: "col-xs-3"
+      }, [_c('img', {
+        staticClass: "full-image img-responsive",
+        attrs: {
+          "src": comment.comment_image
+        }
+      })])]) : _vm._e()])]), _vm._v(" "), _c('div', {
+        staticClass: "col-xs-3"
+      }, [_c('div', {
+        staticClass: "pull-right"
+      }, [_c('span', {
+        staticClass: "text-muted",
+        staticStyle: {
+          "font-size": "10px"
+        }
+      }, [_vm._v(_vm._s(_vm.postedOn(comment)))])])])])])])
+    }), _vm._v(" "), _c('comment-input', {
+      attrs: {
+        "postId": post.id
+      },
+      on: {
+        "completed": function($event) {
+          _vm.getCommentsByInsert(post, index)
+        }
+      }
+    })], 2) : _vm._e()])
+  })], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "col-xs-12 card",
-    staticStyle: {
-      "padding-top": "20px",
-      "margin-bottom": "20px"
+    staticClass: "media-left"
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
     }
-  }, [_c('div', {
-    staticClass: "col-xs-11 col-xs-offset-1 col-md-10 col-md-offset-2",
-    staticStyle: {
-      "padding-top": "30px"
+  }, [_c('img', {
+    attrs: {
+      "src": "images/profile.png"
     }
+  })])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-xs-1"
   }, [_c('div', {
-    staticClass: "tab-content row"
-  }, [_vm._v("\n                \tLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n                \ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n                \tquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n                \tconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n                \tcillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n                \tproident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n                ")])])])
+    staticClass: "media-left"
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": "images/profile.png"
+    }
+  })])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

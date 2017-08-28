@@ -48,4 +48,5 @@ Route::get('getMoods', 'MoodController@index');
 
 Route::get('get_user_info', 'UserController@getUserInfo');
 Route::post('update_basic_info', 'UserController@updateBasicInfo');
+Route::post('update_profile_pic', 'UserController@updateProfilePic');
 

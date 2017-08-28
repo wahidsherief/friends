@@ -17,6 +17,6 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User')->select(['id', 'name']);
+        return $this->belongsTo('App\User')->select(['id', 'firstname', 'lastname']);
     }
 }

@@ -45,7 +45,8 @@ class DashboardController extends Controller
 
     public function getComments(Request $request)
     {
-    	return \App\Comment::where('post_id', $request->id)->with('user')->latest()->get();
+    	
+        return \App\Comment::where('post_id', $request->id)->with('user')->latest()->get();
     }
 
     public function insertPost(Request $request)

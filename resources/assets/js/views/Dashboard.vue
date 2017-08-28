@@ -65,7 +65,10 @@
                                 <div class="media-body">
                                     <div class="media-heading">
                                         <p>
-                                            <span class="comment-title">{{comment.user.name}}</span>
+                                            <span class="comment-title">
+                                                {{comment.user.firstname}}
+                                                {{comment.user.lastname}}
+                                            </span>
                                             <span>&nbsp; {{comment.comment}}</span>
                                         </p>
                                     </div>

@@ -1,39 +1,144 @@
 <template>
-	<section>
-		<profile-header></profile-header>
+    <section class='feed-area'>
+        <profile-header></profile-header>
         <br>
-        <div class="col-xs-12 card" style="padding-top:20px; margin-bottom:20px">
-            <div style="padding-top:30px" class="col-xs-11 col-xs-offset-1 col-md-10 col-md-offset-2">
-                <div class="tab-content row">
-                	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <div class="post-section" v-for="(post,index) in posts">
+            <div class="card post" :style="{ background: post.color }">
+                <div class="card-body">
+                    <div class="media social-post">
+                        <div class="media-left">
+                            <a href="#">
+                                <img src="images/profile.png" />
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <h4 class="title">
+                                    {{ post.name }}
+                                    <span class='feelingText' v-if="post.mood != null">is feeling -- {{ post.mood }}</span>
+                                </h4>
+                                <h5 class="timeing">{{ postedOn(post) }}</h5>
+                            </div>
+                            <div class="media-content">{{post.body}}</div>
+                            <div class="media-content" v-if="post.images !=  null" >
+                                <div class='row img-container'>
+                                    <div v-for='src in post.images'>
+                                        <div class="col-xs-3">
+                                            <div class="row">
+                                                <div class="post-image">
+                                                    <img :src='src' alt='image' class="rounded float-left img-fluid full-image" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="media-action">
+                                <button @click="react(post,index)" class="btn btn-link">
+                                    <i class="fa fa-thumbs-up fa-custom"></i> 
+                                    <span v-if='post.reacts > 0'> &nbsp;{{ post.reacts }} Reactions </span>
+                                    <span v-else><strong>Like</strong></span>
+                                </button>
+                                <button @click="getComments(post, index)" class="btn btn-link"><i class="fa fa-comments fa-custom"></i>
+                                &nbsp;
+                                <span v-if='post.total_comments > 0'> &nbsp;{{ post.total_comments }} Comments </span>
+                                <span v-else><strong>Comment</strong></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div v-if='post.toggleComments'>
+                <div class="card comment" v-for='comment in post.comments'>
+                    <div class="card-body">
+                        <div class="media social-post">
+                            <div class="col-xs-1">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img src="images/profile.png" />
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="media-body">
+                                    <div class="media-heading">
+                                        <p>
+                                            <span class="comment-title">
+                                                {{comment.user.firstname}} 
+                                                {{comment.user.lastname}}
+                                            </span>
+                                            <span>&nbsp; {{comment.comment}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="row media-content" v-if="comment.comment_image != ''">
+                                        <div class="col-xs-3">
+                                            <img :src="comment.comment_image" class="full-image img-responsive">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="pull-right">
+                                    <span class="text-muted" style="font-size: 10px">{{ postedOn(comment) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- v-if="index == selectedPostIndex" -->
+                <comment-input  :postId="post.id" @completed='getCommentsByInsert(post, index)'>
+                </comment-input>
+            </div>
         </div>
-	</section>
+    </section>
 </template>
 
 <script>
+    import moment from 'moment';
+    import Post from '../models/Post';
+    import CommentInput from '../components/CommentInput';
     import ProfileHeader from '../components/ProfileHeader';
+
     export default {
-        components: {ProfileHeader},
+        components: {ProfileHeader, CommentInput},
+
         data() {
             return {
-                userInfo: [],
+                posts: [],
             }
         },
 
         created() {
-            this.getUserInfo()
+            Post.all(posts => this.posts = posts);
         },
 
         methods: {
-            getUserInfo() {
-                axios.get('/get_user_info').then(response => this.userInfo = response.data);
+            postedOn(post) {
+                return moment(post.created_at).fromNow();
+            },
+
+            getComments(post, index){
+                axios.post('getcomments', {id: post.id})
+                    .then(response => {
+                        this.$set(this.posts, index, Object.assign({}, post, { comments: response.data, total_comments:  response.data.length}));
+                    });
+                    // this.selectedPostIndex = index;
+                    post.toggleComments = !post.toggleComments;
+            },
+
+            getCommentsByInsert(post, index){
+                axios.post('getcomments', {id: post.id})
+                    .then(response => {
+                        this.$set(this.posts, index, Object.assign({}, post, 
+                            { comments: response.data, total_comments:  response.data.length }));
+                    });
+            },
+
+            react(post, index) {
+                axios.post('react', {id: post.id}).then(response => {
+                        this.$set(this.posts, index, Object.assign({}, post, { reacts: response.data }));
+                    });
             }
         }
     }

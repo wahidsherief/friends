@@ -42,14 +42,13 @@
 
             onChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
-                    var reader = new FileReader();
-                    reader.onload = (event) => {
-                        // this.$set(this.userInfo.profile_pic, event.target.result);
-                        this.userInfo.profile_pic = event.target.result;
-                    };
-                    reader.readAsDataURL(files[0]);
-                    // this.isCommentImagePreview = true;
-                    // this.isImageUploadButtonShow = false;
+                var reader = new FileReader();
+                var x = [];
+                reader.onload = (event) => {
+                    this.userInfo.profile_pic = event.target.result;
+                    x[0] = this.userInfo.profile_pic;
+                };
+                reader.readAsDataURL(files[0]);
             }
         }
     }
