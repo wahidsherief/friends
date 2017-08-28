@@ -29,21 +29,21 @@ class UserController extends Controller
     public function updateProfilePic(Request $request)
     {
         $user = User::find(\Auth::id())->first();
-        $image = $request->image;
+        $image = $request->image[0];
 
-        if (isset($image) || !empty($image) || $image != null) {
-                $profile_pic  = '/user/images/profile/'.$this->uploadProfilePic($image);
-                $user->profile_pic = $profile_pic;
-                $user->save();
-        } else {
-            $image_file = '';
-        }
+        $profile_pic  = '/user/images/profile/'.$this->uploadProfilePic($image);
+        $user->profile_pic = $profile_pic;
+        $user->save();
     }
 
     private function uploadProfilePic($image) {
-        $file_name = uniqid().'_'.$image;
+        $exploded = explode(',', $image);
+        $decoded = base64_decode($exploded[1]);
+        $explode = explode('/',$exploded[0]);
+        $extension = explode(';',$explode[1]);
+        $file_name = uniqid().'_'.str_random().'.'.$extension[0];
         $path = public_path().'/user/images/profile/'.$file_name;
-        file_put_contents($path, $file_name);
+        file_put_contents($path, $decoded);
 
         return $file_name;
     }

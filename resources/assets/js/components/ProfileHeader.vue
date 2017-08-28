@@ -4,7 +4,8 @@
             <div class="card-body app-heading" style="display: inline;">
                 <div class="profile-picture">
                     <label for="file-input">
-                        <img class="profile-img" :src=userInfo.profile_pic />
+                        <img v-if='previewImage' class="profile-img" :src='prevSrc[0]' />
+                        <img v-if='mainImage' class="profile-img" :src='this.userInfo.profile_pic' />
                     </label>
                     <input id="file-input" @change="onChange" type="file" />
                 </div>
@@ -28,11 +29,15 @@
         data() {
             return {
                 userInfo: [],
+                prevSrc: [],
+                src: '',
+                mainImage: true,
+                previewImage: false,
             }
         },
 
         created() {
-            this.getUserInfo()
+            this.getUserInfo();
         },
 
         methods: {
@@ -43,10 +48,14 @@
             onChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 var reader = new FileReader();
-                var x = [];
                 reader.onload = (event) => {
-                    this.userInfo.profile_pic = event.target.result;
-                    x[0] = this.userInfo.profile_pic;
+                    this.mainImage = false;
+                    this.previewImage = true;
+                    this.$set(this.prevSrc, 0, event.target.result);
+
+                    axios.post('update_profile_pic', {
+                        image: this.prevSrc, 
+                    })
                 };
                 reader.readAsDataURL(files[0]);
             }
