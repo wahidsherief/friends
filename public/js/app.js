@@ -20288,8 +20288,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             userInfo: [],
-            prevSrc: [],
-            src: '',
+            src: [],
             mainImage: true,
             previewImage: false
         };
@@ -20315,10 +20314,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             reader.onload = function (event) {
                 _this2.mainImage = false;
                 _this2.previewImage = true;
-                _this2.$set(_this2.prevSrc, 0, event.target.result);
+                _this2.$set(_this2.src, 0, event.target.result);
 
                 axios.post('update_profile_pic', {
-                    image: _this2.prevSrc
+                    image: _this2.src
                 });
             };
             reader.readAsDataURL(files[0]);
@@ -22673,7 +22672,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [(_vm.previewImage) ? _c('img', {
     staticClass: "profile-img",
     attrs: {
-      "src": _vm.prevSrc[0]
+      "src": _vm.src[0]
     }
   }) : _vm._e(), _vm._v(" "), (_vm.mainImage) ? _c('img', {
     staticClass: "profile-img",
