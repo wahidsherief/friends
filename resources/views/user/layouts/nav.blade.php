@@ -131,6 +131,9 @@
             </ul>
           </div>
         </li> -->
+        <li>
+          <a href="/friends">Friends</a>
+        </li>
         <li class="dropdown profile">
           <a href="/html/pages/profile.html" class="dropdown-toggle"  data-toggle="dropdown">
             <img class="profile-img-top-nav profile-img" src="{{ asset('user/images/profile.png') }}">

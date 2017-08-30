@@ -177,6 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         FrancescoMalatesta\LaravelReactions\Providers\ReactionsServiceProvider::class,
+        Hootlex\Friendships\FriendshipsServiceProvider::class,
     ],
 
     /*

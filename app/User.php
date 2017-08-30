@@ -5,11 +5,13 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use FrancescoMalatesta\LaravelReactions\Traits\Reacts;
+use Hootlex\Friendships\Traits\Friendable;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use Reacts;
+    use Friendable;
 
     /**
      * The attributes that are mass assignable.
