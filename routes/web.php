@@ -17,7 +17,7 @@
 
 // });
 
-Route::get('test2', 'DashboardController@getPosts');
+Route::get('test', 'FriendsController@index');
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -49,4 +49,7 @@ Route::get('getMoods', 'MoodController@index');
 Route::get('get_user_info', 'UserController@getUserInfo');
 Route::post('update_basic_info', 'UserController@updateBasicInfo');
 Route::post('update_profile_pic', 'UserController@updateProfilePic');
+
+Route::get('get_friend', 'FriendsController@getAllFriends');
+Route::post('add_friend', 'FriendsController@addFriend');
 

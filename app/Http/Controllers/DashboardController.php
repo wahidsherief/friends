@@ -18,11 +18,6 @@ class DashboardController extends Controller
         $this->comment_image_path = '/user/images/comments/';
     }
 
-    // public function index()
-    // {
-    // 	return view('user.dashboard');
-    // }
-
     public function getPosts()
     {
     	$posts = $this->getAllPosts();
