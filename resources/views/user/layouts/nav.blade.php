@@ -132,7 +132,7 @@
           </div>
         </li> -->
         <li>
-          <a href="/friends">Friends</a>
+          <router-link to="/friends" exact>friends</router-link>
         </li>
         <li class="dropdown profile">
           <a href="/html/pages/profile.html" class="dropdown-toggle"  data-toggle="dropdown">

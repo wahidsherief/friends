@@ -21135,7 +21135,7 @@ window.Form = __WEBPACK_IMPORTED_MODULE_4__utilities_Form__["a" /* default */];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(128);
 
 
-var routes = [{ path: '/', component: __webpack_require__(170) }, { path: '/profile', component: __webpack_require__(171) }, { path: '/about', component: __webpack_require__(169) }];
+var routes = [{ path: '/', component: __webpack_require__(170) }, { path: '/profile', component: __webpack_require__(171) }, { path: '/about', component: __webpack_require__(169) }, { path: '/friends', component: __webpack_require__(189) }];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -33425,6 +33425,99 @@ module.exports = function(module) {
 __webpack_require__(129);
 module.exports = __webpack_require__(130);
 
+
+/***/ }),
+/* 187 */,
+/* 188 */,
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  null,
+  /* template */
+  __webpack_require__(190),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/opt/lampp/htdocs/friends/resources/assets/js/views/Friends.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Friends.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-366d0118", Component.options)
+  } else {
+    hotAPI.reload("data-v-366d0118", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "feed-area"
+  }, [_c('div', {
+    staticClass: "post-section"
+  }, [_c('div', {
+    staticClass: "card post"
+  }, [_c('div', {
+    staticClass: "card-body"
+  }, [_c('div', {
+    staticClass: "friendlist"
+  }, [_c('div', {
+    staticClass: "top"
+  }, [_c('h4', [_vm._v("Friend's List")])]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
+    staticClass: "friend"
+  }, [_c('div', {
+    staticClass: "col-sm-12"
+  }, [_c('div', {
+    staticClass: "col-sm-2"
+  }, [_c('img', {
+    staticClass: "img-circle",
+    attrs: {
+      "src": "https://www.infrascan.net/demo/assets/img/avatar5.png",
+      "width": "60px"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-8"
+  }, [_c('h4', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("Rahul Jain")])]), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("4 mutual friends")])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-2"
+  }, [_c('button', {
+    staticClass: "btn btn-xs btn-primary"
+  }, [_vm._v("Add friend")])])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  }), _vm._v(" "), _c('hr')])])])])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-366d0118", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

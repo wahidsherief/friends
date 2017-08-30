@@ -14,13 +14,13 @@ class UsersTableSeeder extends Seeder
     {
 		$faker = Faker\Factory::create();
 
-		// $limit = 3
+		$limit = 10;
 
-		// for ($i = 0; $i < $limit; $i++) {
+		for ($i = 0; $i < $limit; $i++) {
 		    User::insert([ //,
-		        'email' => 'wahid@gmail.com',
-		        'firstname' => 'wahidul',
-		        'lastname' => 'alam',
+		        'email' => $faker->email,
+		        'firstname' => $faker->name,
+		        'lastname' => $faker->name,
 		        'password' => bcrypt('12345'),
 		        'bio' => 'demo bio',
 		        'bday' => '06',
@@ -34,6 +34,6 @@ class UsersTableSeeder extends Seeder
 		        'created_at' => $faker->dateTime($max = 'now'),
 		        'updated_at' => $faker->dateTime($max = 'now')
 		    ]);
-	    // }
+	    }
 	}
 }
