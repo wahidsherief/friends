@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <div class="friendlist">
                         <div class="top">
-                            <h4>Friend Requests</h4>
+                            <h4>Your Friend List</h4>
                         </div>
                         <hr>
                         <br>
@@ -22,25 +22,16 @@
 
                                     <div class="col-xs-3">
                                         <div class="row">
-                                            <div v-if='friend.accepted'>
+                                            <div v-if='friend.unfriend'>
                                                 <p>
-                                                    You are now friends with
+                                                    You are no more connected with
                                                     {{ friend.firstname }} {{ friend.lastname }}
-                                                </p>
-                                            </div>
-                                            <div v-else-if='friend.canceled'>
-                                                <p>
-                                                    Request Removed
                                                 </p>
                                             </div>
                                             <div v-else>
                                                 <button class='btn btn-xs btn-primary'
-                                                        @click='acceptRequest(friend)'>
-                                                        Accept
-                                                </button>
-                                                <button class='btn btn-xs btn-danger pull-right'
-                                                        @click='cancelRequest(friend)'>
-                                                        Cancel
+                                                        @click='unfriend(friend)'>
+                                                        Remove Friend
                                                 </button>
                                             </div>
                                         </div>
@@ -66,27 +57,19 @@
         },
 
         created() {
-            this.getFriendRequest();
+            this.getFriendList();
         },
 
         methods: {
-            getFriendRequest() {
-                axios.get('/get_friend_requests').then(response => this.friends = response.data);
+            getFriendList() {
+                axios.get('/get_friendlist').then(response => this.friends = response.data);
             },
 
-            acceptRequest(friend) {
-                axios.post('/accept_friend_request', {
+            unfriend(friend) {
+                axios.post('/unfriend', {
                     id : friend.id
                 }).then(response => {
-                    this.$set(friend, 'accepted', response.data)
-                });
-            },
-
-            cancelRequest(friend) {
-                axios.post('/cancel_friend_request', {
-                    id : friend.id
-                }).then(response => {
-                    this.$set(friend, 'canceled', response.data)
+                    this.$set(friend, 'unfriend', response.data)
                 });
             }
         }

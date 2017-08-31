@@ -53,5 +53,9 @@ Route::post('update_profile_pic', 'UserController@updateProfilePic');
 Route::get('get_friend', 'FriendsController@getAllFriends');
 Route::post('add_friend', 'FriendsController@addFriend');
 Route::get('get_friend_requests', 'FriendsController@getFriendRequests');
+Route::post('accept_friend_request', 'FriendsController@acceptFriendRequest');
+Route::post('cancel_friend_request', 'FriendsController@cancelFriendRequest');
+Route::get('get_friendlist', 'FriendsController@getFriendList');
+Route::post('unfriend', 'FriendsController@unfriend');
 
 
