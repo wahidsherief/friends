@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <div class="friendlist">
                         <div class="top">
-                            <h4>Friend's List</h4>
+                            <h4>Friend Requests</h4>
                         </div>
                         <hr>
                         <br>
@@ -49,21 +49,21 @@
         },
 
         created() {
-            this.getAllFriend();
+            this.getFriendRequest();
         },
 
         methods: {
-            getAllFriend() {
-                axios.get('/get_friend').then(response => this.friends = response.data);
+            getFriendRequest() {
+                axios.get('/get_friend_requests').then(response => this.friends = response.data);
             },
 
-            addFriend(friend) {
-                axios.post('/add_friend', {
-                    id : friend.id
-                }).then(response => {
-                    this.$set(friend, 'requestSent', response.data)
-                });
-            }
+            // addFriend(friend) {
+            //     axios.post('/add_friend', {
+            //         id : friend.id
+            //     }).then(response => {
+            //         this.$set(friend, 'requestSent', response.data)
+            //     });
+            // }
         }
     }
 </script>

@@ -52,4 +52,6 @@ Route::post('update_profile_pic', 'UserController@updateProfilePic');
 
 Route::get('get_friend', 'FriendsController@getAllFriends');
 Route::post('add_friend', 'FriendsController@addFriend');
+Route::get('get_friend_requests', 'FriendsController@getFriendRequests');
+
 

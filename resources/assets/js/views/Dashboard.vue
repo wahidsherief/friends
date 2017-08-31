@@ -125,7 +125,7 @@
                         this.$set(this.posts, index, Object.assign({}, post, { comments: response.data, total_comments:  response.data.length}));
                     });
                     // this.selectedPostIndex = index;
-                    post.toggleComments = !post.toggleComments;
+                    post.toggleComments =! post.toggleComments;
             },
 
             getCommentsByInsert(post, index){
