@@ -141,7 +141,9 @@
           </a>
           <div class="dropdown-menu">
             <div class="profile-info">
-              <h4 class="username">{{ Auth::user()->name }}</h4>
+              <h6 class="username">
+                {{ Auth::user()->firstname }} {{ Auth::user()->lastname }}
+              </h6>
             </div>
             <ul class="action">
               <li>

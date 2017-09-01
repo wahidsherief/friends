@@ -4,6 +4,7 @@
             <div class="card post">
                 <div class="card-body">
                     <div class="friendlist">
+                        <friends-top-menu></friends-top-menu>
                         <div class="top">
                             <h4>Friend's List</h4>
                         </div>
@@ -17,9 +18,20 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <h4><a href="#">{{ friend.firstname }} {{ friend.lastname }}</a></h4>
-                                        <p><a href="#">4 mutual friends</a></p>
+                                        <p>
+                                            <a v-if="friend.mutualFriendCount == 1">
+                                                {{ friend.mutualFriendCount }} mutual friend
+                                            </a>
+                                            <a v-else-if="friend.mutualFriendCount > 1">
+                                                {{ friend.mutualFriendCount }} mutual friends
+                                            </a>
+                                            <span v-else >
+                                                No friends in common
+                                            </span>
+                                        </p>
                                     </div>
 
+                   
                                     <div class="col-sm-2">
                                         <div v-if="friend.requestSent">
                                             <button class='btn btn-xs disabled'>Request sent</button>
@@ -41,7 +53,11 @@
 </template>
 
 <script>
+    import FriendsTopMenu from '../components/FriendsTopMenu';
     export default {
+        components: {
+            FriendsTopMenu
+        },
         data() {
            return {
                 friends: [],

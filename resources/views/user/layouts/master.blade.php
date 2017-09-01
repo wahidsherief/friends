@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
     <head>
-        <title>HappyMe</title>
+        <title>Friends</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 

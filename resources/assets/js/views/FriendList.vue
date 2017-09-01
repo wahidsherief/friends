@@ -4,6 +4,7 @@
             <div class="card post">
                 <div class="card-body">
                     <div class="friendlist">
+                    	<friends-top-menu></friends-top-menu>
                         <div class="top">
                             <h4>Your Friend List</h4>
                         </div>
@@ -49,7 +50,11 @@
 </template>
 
 <script>
+    import FriendsTopMenu from '../components/FriendsTopMenu';
     export default {
+    	components: {
+            FriendsTopMenu
+        },
         data() {
            return {
                 friends: [],
