@@ -11,18 +11,16 @@ class FriendsController extends Controller
 
     public function index()
     {
-    	$user = User::find(Auth::id());
-    	$senders = $user->getFriendRequests();
-    	$friends = array();
-    	$i=0;
-    	foreach ($senders as $sender) {
-    		$friends[$i] = User::where('id', $sender->sender_id)->first(['id', 'firstname', 'lastname']);
-    		$i++;
+    	$sender = User::find(Auth::id());
+    	$friends = User::where('id', '!=', Auth::id())->get(['id', 'firstname', 'lastname']);
+    	foreach ($friends as $friend) {
+    		$request_sent = $sender->hasSentFriendRequestTo($friend);
+    		$mutual_friend_count = $sender->getMutualFriendsCount($friend);
+    		$friend->requestSent = $request_sent;
+    		$friend->mutualFriendCount = $mutual_friend_count;
     	}
-
-    	dd($friends[0]);
     	
-    	dd( collect($friends));
+    	return $friends;
     }
 
     public function getAllFriends()

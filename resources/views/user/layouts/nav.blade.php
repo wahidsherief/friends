@@ -26,23 +26,62 @@
         </li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <!-- <li class="dropdown notification">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <div class="icon"><i class="fa fa-shopping-basket" aria-hidden="true"></i></div>
-            <div class="title">New Orders</div>
-            <div class="count">0</div>
+        <li class="dropdown notification">
+            
+          <a class="dropdown-toggle" data-toggle="dropdown">
+            <router-link to='friends' exact>
+            <div class="icon"><i class="fa fa-users" aria-hidden="true"></i></div>
+            <div class="title">Unread Messages</div>
+            <div class="count">99</div>
+
+            </router-link>    
           </a>
           <div class="dropdown-menu">
             <ul>
-              <li class="dropdown-header">Ordering</li>
-              <li class="dropdown-empty">No New Ordered</li>
+              <li class="dropdown-header">Message</li>
+              <li>
+                <a href="#">
+                  <span class="badge badge-warning pull-right">10</span>
+                  <div class="message">
+                    <img class="profile" src="https://placehold.it/100x100">
+                    <div class="content">
+                      <div class="title">"Payment Confirmation.."</div>
+                      <div class="description">Alan Anderson</div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="badge badge-warning pull-right">5</span>
+                  <div class="message">
+                    <img class="profile" src="https://placehold.it/100x100">
+                    <div class="content">
+                      <div class="title">"Hello World"</div>
+                      <div class="description">Marco  Harmon</div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="badge badge-warning pull-right">2</span>
+                  <div class="message">
+                    <img class="profile" src="https://placehold.it/100x100">
+                    <div class="content">
+                      <div class="title">"Order Confirmation.."</div>
+                      <div class="description">Brenda Lawson</div>
+                    </div>
+                  </div>
+                </a>
+              </li>
               <li class="dropdown-footer">
                 <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
               </li>
             </ul>
           </div>
-        </li> -->
-        <!-- <li class="dropdown notification warning">
+        </li>
+        <li class="dropdown notification warning">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <div class="icon"><i class="fa fa-comments" aria-hidden="true"></i></div>
             <div class="title">Unread Messages</div>
@@ -92,8 +131,8 @@
               </li>
             </ul>
           </div>
-        </li> -->
-        <!-- <li class="dropdown notification danger">
+        </li>
+        <li class="dropdown notification danger">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <div class="icon"><i class="fa fa-bell" aria-hidden="true"></i></div>
             <div class="title">System Notifications</div>
@@ -130,13 +169,10 @@
               </li>
             </ul>
           </div>
-        </li> -->
-        <li>
-          <router-link to="/friends" exact>friends</router-link>
         </li>
         <li class="dropdown profile">
           <a href="/html/pages/profile.html" class="dropdown-toggle"  data-toggle="dropdown">
-            <img class="profile-img-top-nav profile-img" src="{{ asset('user/images/profile.png') }}">
+            <img class="profile-img-top-nav profile-img" src="{{ Auth::user()->profile_pic }}">
             <div class="title">Profile</div>
           </a>
           <div class="dropdown-menu">

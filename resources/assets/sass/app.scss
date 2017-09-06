@@ -289,8 +289,8 @@ button:hover, .btn:hover {
 }
 
 .profile-img-top-nav {
-    width: 40px !important;
-    height: 40px !important;
+    width: 35px !important;
+    height: 35px !important;
 }
 
 .nav-stacked li {
@@ -349,4 +349,18 @@ input[type="color"]:focus,
 
 .friendlist {
     margin: 15px;
+}
+
+li.dropdown .icon {
+    width:  35px !important;
+    height:  35px !important;
+    font-size: 14px !important;
+}
+
+.navbar .navbar-collapse .navbar-nav > li.dropdown:hover .dropdown-menu {
+    transform: translate(0, 1px) !important;
+}
+
+.navbar .navbar-collapse .navbar-nav > li.dropdown:hover:after {
+    transform: translate(-50%, 1px) !important;
 }
