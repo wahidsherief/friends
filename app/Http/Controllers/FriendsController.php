@@ -11,11 +11,22 @@ class FriendsController extends Controller
 
     public function index()
     {
-    	$sender = User::find(Auth::id());
-    	$friends = User::where('id', '!=', Auth::id())->get(['id', 'firstname', 'lastname']);
+    	$user = User::find(Auth::id());
+    	$all_friends = $user->getAllFriendships();
+    	dd($all_friends);
+    	$total_friend = count($all_friends);
+    	$except_friend[0] = $user->recipient_id ;
+    	$j=0;
+    	for($i=1; $i<=$total_friend; $i++) {
+    		$except_friend[$i] = $all_friends[$j]->id;
+    		$j++;
+    	}
+
+    	$friends = User::whereNotIn('id', $except_friend)->get(['id', 'firstname', 'lastname']);
+
     	foreach ($friends as $friend) {
-    		$request_sent = $sender->hasSentFriendRequestTo($friend);
-    		$mutual_friend_count = $sender->getMutualFriendsCount($friend);
+    		$request_sent = $user->hasSentFriendRequestTo($friend);
+    		$mutual_friend_count = $user->getMutualFriendsCount($friend);
     		$friend->requestSent = $request_sent;
     		$friend->mutualFriendCount = $mutual_friend_count;
     	}
@@ -25,11 +36,21 @@ class FriendsController extends Controller
 
     public function getAllFriends()
     {
-    	$sender = User::find(Auth::id());
-    	$friends = User::where('id', '!=', Auth::id())->get(['id', 'firstname', 'lastname']);
+    	$user = User::find(Auth::id());
+    	$all_friends = $user->getAllFriendships();
+    	$total_friend = count($all_friends);
+    	$except_friend[0] = $user->id ;
+    	$j=0;
+    	for($i=1; $i<=$total_friend; $i++) {
+    		$except_friend[$i] = $all_friends[$j]->recipient_id;
+    		$j++;
+    	}
+
+    	$friends = User::whereNotIn('id', $except_friend)->get(['id', 'firstname', 'lastname']);
+
     	foreach ($friends as $friend) {
-    		$request_sent = $sender->hasSentFriendRequestTo($friend);
-    		$mutual_friend_count = $sender->getMutualFriendsCount($friend);
+    		$request_sent = $user->hasSentFriendRequestTo($friend);
+    		$mutual_friend_count = $user->getMutualFriendsCount($friend);
     		$friend->requestSent = $request_sent;
     		$friend->mutualFriendCount = $mutual_friend_count;
     	}
