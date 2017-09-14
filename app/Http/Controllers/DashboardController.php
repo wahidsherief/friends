@@ -97,7 +97,6 @@ class DashboardController extends Controller
         } else {
             $comment = '';
         }
-            $comment = $request->comment;
 
         if ($image == null && $comment == null) {
             return false;
@@ -124,6 +123,7 @@ class DashboardController extends Controller
     }
 
     private function uploadImage($images, $postID) {
+        $this->makeDirectoryIfNotExist('posts');
         foreach ($images as $image) {
             $exploded = explode(',', $image);
             $decoded = base64_decode($exploded[1]);
@@ -140,6 +140,7 @@ class DashboardController extends Controller
     }
 
     private function uploadCommentImage($image) {
+        $this->makeDirectoryIfNotExist('comments');
         $exploded = explode(',', $image);
         $decoded = base64_decode($exploded[1]);
         $explode = explode('/',$exploded[0]);
@@ -164,7 +165,7 @@ class DashboardController extends Controller
     }
 
     private function getLastPost($postID, $userID) {
-        return DB::select('SELECT posts.*, users.name FROM users, posts WHERE users.id = posts.user_id AND users.id = '. $userID . ' AND posts.id = '. $postID);
+        return DB::select('SELECT posts.*, users.firstname, users.lastname FROM users, posts WHERE users.id = posts.user_id AND users.id = '. $userID . ' AND posts.id = '. $postID);
     }
 
     private function checkIfImageExist($postID) {
@@ -173,5 +174,12 @@ class DashboardController extends Controller
 
     private function getPostImages($postID) {
         return DB::select('select image from post_images where post_id = '. $postID);
+    }
+
+    private function makeDirectoryIfNotExist($directory_name) {
+        $directory = public_path().'/user/images/'.$directory_name;
+        if (!is_dir($directory)) {
+            mkdir($directory, 0777, true);
+        }
     }
 }

@@ -14,7 +14,7 @@ class Post extends Model implements ReactableInterface
 	
 	public function user()
     {
-        return $this->belongsTo('App\User')->select(['id', 'name']);
+        return $this->belongsTo('App\User')->select(['id', 'firstname', 'lastname']);
     }
 
     public function comments()
