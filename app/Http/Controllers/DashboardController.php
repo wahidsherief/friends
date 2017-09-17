@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\Notifications\NewPost;
 
 class DashboardController extends Controller
 {
@@ -79,7 +80,10 @@ class DashboardController extends Controller
                 $lastPost[0]->images = '';
             }
 
-            return collect($lastPost[0]);
+            $newPost = collect($lastPost[0]);
+
+            auth()->user()->notify(new NewPost($newPost));
+            return $newPost ;
         }
     }
 
@@ -154,11 +158,11 @@ class DashboardController extends Controller
 
 
     private function getAllPosts() {
-        return DB::select(
+        return  DB::select(
             'SELECT p.*,
                 (SELECT COUNT(r.reactable_id) FROM reactables r WHERE p.id = r.reactable_id) AS reacts,
                 (SELECT COUNT(c.id) FROM comments c WHERE p.id = c.post_id) AS total_comments,
-                (SELECT u.firstname FROM users u WHERE p.user_id = u.id) AS name
+                (SELECT CONCAT(u.firstname, " ", u.lastname) FROM users u WHERE p.user_id = u.id) AS name
             FROM posts p
             GROUP BY p.id
             ORDER BY p.`id` DESC');

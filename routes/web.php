@@ -12,8 +12,16 @@
 */
 
 // Route::get('/test', function () {
-// 	$x = "'firstname' => 'wahid', 'lastname' => 'rocksss'";
-//    App\User::where('id',\Auth::id())->update([$x]);
+// 	$result = DB::select(
+//             'SELECT p.*,
+//                 (SELECT COUNT(r.reactable_id) FROM reactables r WHERE p.id = r.reactable_id) AS reacts,
+//                 (SELECT COUNT(c.id) FROM comments c WHERE p.id = c.post_id) AS total_comments,
+//                 (SELECT u.firstname as firstname, u.lastname as lastname FROM users u WHERE p.user_id = u.id)
+//             FROM posts p
+//             GROUP BY p.id
+//             ORDER BY p.`id` DESC');
+
+// 	dd($result);
 
 // });
 
@@ -58,4 +66,4 @@ Route::post('cancel_friend_request', 'FriendsController@cancelFriendRequest');
 Route::get('get_friendlist', 'FriendsController@getFriendList');
 Route::post('unfriend', 'FriendsController@unfriend');
 
-
+Route::get('notification/{notificationId}', 'NotificationController@readNotification');

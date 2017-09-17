@@ -9,7 +9,8 @@
         "francescomalatesta/laravel-reactions": "^0.1.1",
         "hootlex/laravel-friendships": "^1.0",
         "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "pusher/pusher-php-server": "~3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
