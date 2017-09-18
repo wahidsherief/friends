@@ -1,108 +1,124 @@
 <template>
-    <section class='feed-area'>
+    <div>
+        <navigation-section></navigation-section>
+        <div class="app-area">
+            <div class="col-xs-12 col-md-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <section class='feed-area'>
 
-        <status-input @completed='addRecentPost'></status-input>
+                            <status-input @completed='addRecentPost'></status-input>
 
-        <div class="post-section" v-for="(post,index) in posts">
-            <div class="card post" :style="{ background: post.color }">
-                <div class="card-body">
-                    <div class="media social-post">
-                        <div class="media-left">
-                            <a href="#">
-                                <img src="images/profile.png" />
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <div class="media-heading">
-                                <h4 class="title">
-                                    {{ post.name }}
-                                    <span class='feelingText' v-if="post.mood != null">is feeling -- {{ post.mood }}</span>
-                                </h4>
-                                <h5 class="timeing">{{ postedOn(post) }}</h5>
-                            </div>
-                            <div class="media-content">{{post.body}}</div>
-                            <div class="media-content" v-if="post.images !=  null" >
-                                <div class='row img-container'>
-                                    <div v-for='src in post.images'>
-                                        <div class="col-xs-3">
-                                            <div class="row">
-                                                <div class="post-image">
-                                                    <img :src='src' alt='image' class="rounded float-left img-fluid full-image" />
+                            <div class="post-section" v-for="(post,index) in posts">
+                                <div class="card post" :style="{ background: post.color }">
+                                    <div class="card-body">
+                                        <div class="media social-post">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                    <img src="images/profile.png" />
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="media-heading">
+                                                    <h4 class="title">
+                                                        {{ post.name }}
+                                                        <span class='feelingText' v-if="post.mood != null">is feeling -- {{ post.mood }}</span>
+                                                    </h4>
+                                                    <h5 class="timeing">{{ postedOn(post) }}</h5>
+                                                </div>
+                                                <div class="media-content">{{post.body}}</div>
+                                                <div class="media-content" v-if="post.images !=  null" >
+                                                    <div class='row img-container'>
+                                                        <div v-for='src in post.images'>
+                                                            <div class="col-xs-3">
+                                                                <div class="row">
+                                                                    <div class="post-image">
+                                                                        <img :src='src' alt='image' class="rounded float-left img-fluid full-image" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="media-action">
+                                                    <button @click="react(post,index)" class="btn btn-link">
+                                                        <i class="fa fa-thumbs-up fa-custom"></i> 
+                                                        <span v-if='post.reacts > 0'> &nbsp;{{ post.reacts }} Reactions </span>
+                                                        <span v-else><strong>Like</strong></span>
+                                                    </button>
+                                                    <button @click="getComments(post, index)" class="btn btn-link"><i class="fa fa-comments fa-custom"></i>
+                                                    &nbsp;
+                                                    <span v-if='post.total_comments > 0'> &nbsp;{{ post.total_comments }} Comments </span>
+                                                    <span v-else><strong>Comment</strong></span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="media-action">
-                                <button @click="react(post,index)" class="btn btn-link">
-                                    <i class="fa fa-thumbs-up fa-custom"></i> 
-                                    <span v-if='post.reacts > 0'> &nbsp;{{ post.reacts }} Reactions </span>
-                                    <span v-else><strong>Like</strong></span>
-                                </button>
-                                <button @click="getComments(post, index)" class="btn btn-link"><i class="fa fa-comments fa-custom"></i>
-                                &nbsp;
-                                <span v-if='post.total_comments > 0'> &nbsp;{{ post.total_comments }} Comments </span>
-                                <span v-else><strong>Comment</strong></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div v-if='post.toggleComments'>
-                <div class="card comment" v-for='comment in post.comments'>
-                    <div class="card-body">
-                        <div class="media social-post">
-                            <div class="col-xs-1">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img src="images/profile.png" />
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xs-8">
-                                <div class="media-body">
-                                    <div class="media-heading">
-                                        <p>
-                                            <span class="comment-title">
-                                                {{comment.user.firstname}}
-                                                {{comment.user.lastname}}
-                                            </span>
-                                            <span>&nbsp; {{comment.comment}}</span>
-                                        </p>
-                                    </div>
-                                    <div class="row media-content" v-if="comment.comment_image != ''">
-                                        <div class="col-xs-3">
-                                            <img :src="comment.comment_image" class="full-image img-responsive">
+                                <div v-if='post.toggleComments'>
+                                    <div class="card comment" v-for='comment in post.comments'>
+                                        <div class="card-body">
+                                            <div class="media social-post">
+                                                <div class="col-xs-1">
+                                                    <div class="media-left">
+                                                        <a href="#">
+                                                            <img src="images/profile.png" />
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <div class="media-body">
+                                                        <div class="media-heading">
+                                                            <p>
+                                                                <span class="comment-title">
+                                                                    {{comment.user.firstname}}
+                                                                    {{comment.user.lastname}}
+                                                                </span>
+                                                                <span>&nbsp; {{comment.comment}}</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="row media-content" v-if="comment.comment_image != ''">
+                                                            <div class="col-xs-3">
+                                                                <img :src="comment.comment_image" class="full-image img-responsive">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <div class="pull-right">
+                                                        <span class="text-muted" style="font-size: 10px">{{ postedOn(comment) }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <!-- v-if="index == selectedPostIndex" -->
+                                    <comment-input  :postId="post.id" @completed='getCommentsByInsert(post, index)'>
+                                    </comment-input>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
-                                <div class="pull-right">
-                                    <span class="text-muted" style="font-size: 10px">{{ postedOn(comment) }}</span>
-                                </div>
-                            </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
-                <!-- v-if="index == selectedPostIndex" -->
-                <comment-input  :postId="post.id" @completed='getCommentsByInsert(post, index)'>
-                </comment-input>
             </div>
         </div>
-    </section>
+    </div>
 </template>
 
 <script>
     import moment from 'moment';
     import Post from '../models/Post';
+    import NavigationSection from '../components/NavigationSection';
     import StatusInput from '../components/StatusInput';
     import CommentInput from '../components/CommentInput';
 
     export default {
-        components: {StatusInput, CommentInput},
+        components: {   
+            NavigationSection,
+            StatusInput, 
+            CommentInput
+        },
 
         data() {
             return {

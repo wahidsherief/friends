@@ -132,35 +132,7 @@
             </ul>
           </div>
         </li>
-        <li class="dropdown notification danger">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <div class="icon"><i class="fa fa-bell" aria-hidden="true"></i></div>
-            <div class="title">System Notifications</div>
-            <div class="count">{{ count(Auth::user()->unreadNotifications) }}</div>
-          </a>
-          <div class="dropdown-menu">
-            <ul>
-              <!-- <li class="dropdown-header">Notification</li> -->
-              <!-- <li>
-                <a href="#">
-                  <span class="badge badge-danger pull-right">8</span>
-                  <div class="message">
-                    <div class="content">
-                      <div class="title">New Order</div>
-                      <div class="description">$400 total</div>
-                    </div>
-                  </div>
-                </a>
-              </li> -->
-              @foreach(Auth::user()->unreadNotifications as $notification)
-                <li>@include('user.notifications.'.snake_case(class_basename($notification->type)))</li>
-              @endforeach
-              <li class="dropdown-footer">
-                <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-              </li>
-            </ul>
-          </div>
-        </li>
+        <notification :userID='{{ Auth::id() }}' :unreads='{{ Auth::user()->unreadNotifications }}'></notification>
         <li class="dropdown profile">
           <a href="/html/pages/profile.html" class="dropdown-toggle"  data-toggle="dropdown">
             <img class="profile-img-top-nav profile-img" src="{{ Auth::user()->profile_pic }}">
@@ -191,3 +163,5 @@
     </div>
   </div>
 </nav>
+
+

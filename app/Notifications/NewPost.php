@@ -6,12 +6,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class NewPost extends Notification
 {
     use Queueable;
 
-    protected $new_post;
+    public $new_post;
 
     /**
      * Create a new notification instance.
@@ -31,7 +32,7 @@ class NewPost extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     
@@ -47,10 +48,10 @@ class NewPost extends Notification
         return $this->new_post->toArray();
     }
 
-    // public function toDatabase($notifiable)
-    // {
-    //     return [
-    //         'postTime' => \Carbon::now()
-    //     ];
-    // }
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            return $this->new_post->toArray();
+        ]);
+    }
 }

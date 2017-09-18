@@ -66,4 +66,5 @@ Route::post('cancel_friend_request', 'FriendsController@cancelFriendRequest');
 Route::get('get_friendlist', 'FriendsController@getFriendList');
 Route::post('unfriend', 'FriendsController@unfriend');
 
+Route::get('mark_as_read', 'NotificationController@markAsRead');
 Route::get('notification/{notificationId}', 'NotificationController@readNotification');
