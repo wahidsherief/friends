@@ -7,23 +7,11 @@
 		</a>
 		<div class="dropdown-menu">
 			<ul>
-			  <!-- <li class="dropdown-header">Notification</li> -->
-			  <!-- <li>
-			    <a href="#">
-			      <span class="badge badge-danger pull-right">8</span>
-			      <div class="message">
-			        <div class="content">
-			          <div class="title">New Order</div>
-			          <div class="description">$400 total</div>
-			        </div>
-			      </div>
-			    </a>
-			  </li> -->
-			  <notification-item></notification-item>
-			  
-			  <li class="dropdown-footer">
-			    <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-			  </li>
+				<notification-item></notification-item>
+				  
+				<li class="dropdown-footer">
+				    <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+				</li>
 			</ul>
 		</div>
 	</li>
@@ -36,16 +24,16 @@
 			NotificationItem
 		},
 
-		props:['unreads', 'userID'],
+		props:['unreads', 'userid'],
 
 		data() {
 			return {
-				unreadNotifications: this.unreads;
+				unreadNotifications: this.unreads
 			}
-		}
-
+		},
+		
 		mounted() {
-			Echo.private(`App.User.${userID}`)
+			Echo.private(`App.User.${this.userid}`)
 			    .notification((notification) => {
 			    console.log(notification);
 			});

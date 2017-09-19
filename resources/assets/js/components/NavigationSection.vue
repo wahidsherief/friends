@@ -22,10 +22,6 @@
 		        <li class="navbar-title">
 		          <router-link to="/" exact>Friends</router-link>
 		        </li>
-		        <!-- <li class="navbar-search hidden-sm">
-		          <input id="search" type="text" placeholder="Search..">
-		          <button class="btn-search"><i class="fa fa-search"></i></button>
-		        </li> -->
 		      </ul>
 		      <ul class="nav navbar-nav navbar-right">
 		        <li class="dropdown notification">
@@ -134,16 +130,16 @@
 		            </ul>
 		          </div>
 		        </li>
-		        <notification :userID='{{ userID }}' :unreads='{{ unreads }}'></notification>
+		        <notification :userid='userid' :unreads='unreads'></notification>
 		        <li class="dropdown profile">
 		          <a href="/html/pages/profile.html" class="dropdown-toggle"  data-toggle="dropdown">
-		            <img class="profile-img-top-nav profile-img" :src="{{ profilePic }}">
+		            <img class="profile-img-top-nav profile-img" :src="profilepic">
 		            <div class="title">Profile</div>
 		          </a>
 		          <div class="dropdown-menu">
 		            <div class="profile-info">
 		              <h6 class="username">
-		                {{ username }}
+		              		{{ username }}
 		              </h6>
 		            </div>
 		            <ul class="action">
@@ -165,28 +161,13 @@
 </template>
 
 <script>
-	import "Notification" from "../components/Notification";
+	import Notification from '../components/Notification';
 
 	export default {
+		props:['userid', 'username', 'unreads', 'profilepic'],
 		components: {
 			Notification
-		},
-
-		props: [
-			userID,
-			firstname,
-			lastname,
-			profilePic,
-			unreads
-		],
-
-		data() {
-			return {
-				userID: this.userID,
-				unreads: this.unreads,
-				username: this.firstname+" "+this.lastname,
-				profilePic: this.profilePic
-			}
 		}
 	}
 </script>
+

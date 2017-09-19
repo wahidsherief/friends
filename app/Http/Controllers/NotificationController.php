@@ -16,4 +16,17 @@ class NotificationController extends Controller
     {
     	Auth::user()->unreadNotifications->markAsRead();
     }
+
+    public function getNavInfo()
+    {
+    	$nav_info = [
+    		'userID' => Auth::user()->id,
+	    	'username' => Auth::user()->firstname.' '.Auth::user()->lastname,
+	    	'profile_pic' => Auth::user()->profile_pic,
+	    	'unreads' => Auth::user()->unreadNotifications
+    	]; 
+
+    	return $nav_info;
+
+    }
 }

@@ -51,7 +51,7 @@ class NewPost extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            return $this->new_post->toArray();
+            $this->new_post->toArray()
         ]);
     }
 }

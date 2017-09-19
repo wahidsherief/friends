@@ -1,6 +1,11 @@
 <template>
     <div>
-        <navigation-section></navigation-section>
+        <navigation-section :userid='userID'
+                            :username='username'
+                            :profilepic='profile_pic'
+                            :unreads='unreads'>
+        </navigation-section>
+
         <div class="app-area">
             <div class="col-xs-12 col-md-12">
                 <div class="row">
@@ -123,16 +128,30 @@
         data() {
             return {
                 posts: [],
+                userID: '',
+                username: '',
+                unreads: [],
+                profile_pic: '',
             }
         },
 
         created() {
             Post.all(posts => this.posts = posts);
+            this.getNavInfo();
         },
 
         methods: {
             postedOn(post) {
                 return moment(post.created_at).fromNow();
+            },
+
+            getNavInfo() {
+                axios.get('get_nav_info').then(response => {
+                    this.userID = response.data.userID;
+                    this.username = response.data.username;
+                    this.profile_pic = response.data.profile_pic;
+                    this.unreads = response.data.unreads;
+                })
             },
 
             getComments(post, index){

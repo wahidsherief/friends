@@ -23,11 +23,9 @@
     </head>
     <body>
         <div class="row">
-            {{-- @include('user.layouts.aside') --}}
 	        <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 col-xl-4 col-xl-offset-5">
                 <div class="app app-default"  id='app'>
                     
-                    <!-- new code -->
                     <div class="app-container" style="padding-left: 0px">
                         @yield('contents')
                     </div>
