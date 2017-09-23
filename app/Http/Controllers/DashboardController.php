@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\Events\NotificationEvent;
 use App\Notifications\NewPost;
 
 class DashboardController extends Controller
@@ -81,7 +82,8 @@ class DashboardController extends Controller
             }
 
             $newPost = collect($lastPost[0]);
-
+            
+            // event(new NotificationEvent('i am fucked up now'));
             auth()->user()->notify(new NewPost($newPost));
             return $newPost ;
         }

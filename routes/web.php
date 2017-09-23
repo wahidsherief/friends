@@ -68,4 +68,5 @@ Route::post('unfriend', 'FriendsController@unfriend');
 
 Route::get('get_nav_info', 'NotificationController@getNavInfo');
 Route::get('mark_as_read', 'NotificationController@markAsRead');
-Route::get('notification/{notificationId}', 'NotificationController@readNotification');
+// Route::get('notification/{notificationId}', 'NotificationController@readNotification');
+Route::get('notification', 'NotificationController@readNotification');

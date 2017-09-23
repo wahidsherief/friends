@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navigation-section :userid='userID'
+        <navigation-section :userid='userid'
                             :username='username'
                             :profilepic='profile_pic'
                             :unreads='unreads'>
@@ -119,6 +119,8 @@
     import CommentInput from '../components/CommentInput';
 
     export default {
+        props:['userid', 'unreads'],
+        
         components: {   
             NavigationSection,
             StatusInput, 
@@ -128,9 +130,7 @@
         data() {
             return {
                 posts: [],
-                userID: '',
                 username: '',
-                unreads: [],
                 profile_pic: '',
             }
         },
@@ -147,10 +147,8 @@
 
             getNavInfo() {
                 axios.get('get_nav_info').then(response => {
-                    this.userID = response.data.userID;
                     this.username = response.data.username;
                     this.profile_pic = response.data.profile_pic;
-                    this.unreads = response.data.unreads;
                 })
             },
 

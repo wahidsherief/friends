@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
+use Carbon;
 
 class NewPost extends Notification
 {
@@ -43,15 +44,26 @@ class NewPost extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray()
     {
-        return $this->new_post->toArray();
+        return [];
+    }
+
+    public function toDatabase($notifiable)
+    {
+        // dd($notifiable);
+        return [
+                'post'=>$this->new_post,
+                'user'=>$notifiable
+        ];
     }
 
     public function toBroadcast($notifiable)
     {
+        // dd($notifiable);
         return new BroadcastMessage([
-            $this->new_post->toArray()
+                'post'=>$this->new_post,
+                'user'=>$notifiable
         ]);
     }
 }

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\NotificationEvent;
 use Auth;
 
 class NotificationController extends Controller
 {
-    public function readNotification($id)
+    public function readNotification()
     {
-    	dd($id);
+    	event(new NotificationEvent('hi'));
     }
 
     public function markAsRead()

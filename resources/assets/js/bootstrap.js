@@ -17,12 +17,14 @@ window.axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest'
 };
 
+
 window.Form = Form;
 
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: '340ee7c6d338ad517821',
-    cluster: 'ap2',
-    encrypted: true
+    key: '691857f3d69337b25cf9',
+    cluster: 'us2',
+    encrypted: false
 });
+

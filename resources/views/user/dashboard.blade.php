@@ -1,6 +1,8 @@
 @extends("user.layouts.master")
 @section("contents")
-    <router-view></router-view>
+    <router-view :userid="{{ Auth::user()->id }}"
+                 :unreads="{{ Auth::user()->unreadNotifications }}">
+	</router-view>
 @endsection
 
 

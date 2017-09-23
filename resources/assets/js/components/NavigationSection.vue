@@ -164,7 +164,7 @@
 	import Notification from '../components/Notification';
 
 	export default {
-		props:['userid', 'username', 'unreads', 'profilepic'],
+		props:['userid', 'unreads', 'username', 'profilepic'],
 		components: {
 			Notification
 		}
