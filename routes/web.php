@@ -11,21 +11,10 @@
 |
 */
 
-// Route::get('/test', function () {
-// 	$result = DB::select(
-//             'SELECT p.*,
-//                 (SELECT COUNT(r.reactable_id) FROM reactables r WHERE p.id = r.reactable_id) AS reacts,
-//                 (SELECT COUNT(c.id) FROM comments c WHERE p.id = c.post_id) AS total_comments,
-//                 (SELECT u.firstname as firstname, u.lastname as lastname FROM users u WHERE p.user_id = u.id)
-//             FROM posts p
-//             GROUP BY p.id
-//             ORDER BY p.`id` DESC');
+Route::get('/test', function () {
+	dd(Auth::user()->unreadNotifications[0]['type']);
+});
 
-// 	dd($result);
-
-// });
-
-Route::get('test', 'FriendsController@index');
 
 Route::get('/', function () {
     if (Auth::check()) {

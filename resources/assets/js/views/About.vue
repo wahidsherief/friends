@@ -1,5 +1,13 @@
 <template>
     <section>
+        <div class="row">
+            <navigation-section :userid='userid'
+                                :username='userInfo.firstname + " " + userInfo.lastname'
+                                :profilepic='userInfo.profile_pic'
+                                :unreads='unreads'>
+            </navigation-section>
+        </div>
+
         <profile-header></profile-header>
         <br>
         <div class="col-xs-12 card" style="padding-top:20px; margin-bottom:20px">
@@ -175,9 +183,12 @@
 
 <script>
     import ProfileHeader from '../components/ProfileHeader';
+    import NavigationSection from '../components/NavigationSection';
     import Modal from '../components/Modal';
     export default {
-        components: {Modal, ProfileHeader},
+        props:['userid', 'unreads'],
+
+        components: {Modal, ProfileHeader, NavigationSection},
         data() {
            return {
                 showModal: false,
@@ -193,7 +204,8 @@
                     byear: 'Year',
                     gender: 'Choose your gender',
                     religion: 'Choose your religion',
-                    about: ''
+                    about: '',
+                    profile_pic: ''
                 }),
            } 
         },
@@ -244,6 +256,8 @@
                 this.form.gender = this.userInfo.gender;
                 this.form.religion = this.userInfo.religion;
                 this.form.about = this.userInfo.about;
+                this.form.profile_pic = this.userInfo.profile_pic;
+
 
                 this.showModal = true;
             },

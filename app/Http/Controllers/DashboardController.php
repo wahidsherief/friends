@@ -83,7 +83,6 @@ class DashboardController extends Controller
 
             $newPost = collect($lastPost[0]);
             
-            // event(new NotificationEvent('i am fucked up now'));
             auth()->user()->notify(new NewPost($newPost));
             return $newPost ;
         }

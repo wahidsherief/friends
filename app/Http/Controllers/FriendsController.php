@@ -5,34 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Auth;
+use App\Notifications\SendFriendRequest;
 
 class FriendsController extends Controller
 {
 
-    public function index()
-    {
-    	$user = User::find(Auth::id());
-    	$all_friends = $user->getAllFriendships();
-    	dd($all_friends);
-    	$total_friend = count($all_friends);
-    	$except_friend[0] = $user->recipient_id ;
-    	$j=0;
-    	for($i=1; $i<=$total_friend; $i++) {
-    		$except_friend[$i] = $all_friends[$j]->id;
-    		$j++;
-    	}
+    // public function index()
+    // {
+    // 	$user = User::find(Auth::id());
+    // 	$all_friends = $user->getAllFriendships();
+    // 	dd($all_friends);
+    // 	$total_friend = count($all_friends);
+    // 	$except_friend[0] = $user->recipient_id ;
+    // 	$j=0;
+    // 	for($i=1; $i<=$total_friend; $i++) {
+    // 		$except_friend[$i] = $all_friends[$j]->id;
+    // 		$j++;
+    // 	}
 
-    	$friends = User::whereNotIn('id', $except_friend)->get(['id', 'firstname', 'lastname']);
+    // 	$friends = User::whereNotIn('id', $except_friend)->get(['id', 'firstname', 'lastname']);
 
-    	foreach ($friends as $friend) {
-    		$request_sent = $user->hasSentFriendRequestTo($friend);
-    		$mutual_friend_count = $user->getMutualFriendsCount($friend);
-    		$friend->requestSent = $request_sent;
-    		$friend->mutualFriendCount = $mutual_friend_count;
-    	}
+    // 	foreach ($friends as $friend) {
+    // 		$request_sent = $user->hasSentFriendRequestTo($friend);
+    // 		$mutual_friend_count = $user->getMutualFriendsCount($friend);
+    // 		$friend->requestSent = $request_sent;
+    // 		$friend->mutualFriendCount = $mutual_friend_count;
+    // 	}
     	
-    	return $friends;
-    }
+    // 	return $friends;
+    // }
 
     public function getAllFriends()
     {
@@ -82,6 +83,8 @@ class FriendsController extends Controller
     	$sender->befriend($recipient);
 
     	$request_sent = $sender->hasSentFriendRequestTo($recipient);
+
+        $sender->notify(new SendFriendRequest($recipient));
     	
     	return response()->json($request_sent);
     }

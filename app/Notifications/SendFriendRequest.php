@@ -7,22 +7,22 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
-use Carbon;
 
-class NewPost extends Notification
+
+class SendFriendRequest extends Notification
 {
     use Queueable;
 
-    public $new_post;
+    public $SendFriendRequest;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($newPost)
+    public function __construct($SendFriendRequest)
     {
-        $this->new_post = $newPost;
+        $this->SendFriendRequest = $SendFriendRequest;
     }
 
     /**
@@ -52,7 +52,7 @@ class NewPost extends Notification
     public function toDatabase($notifiable)
     {
         return [
-                'post'=>$this->new_post,
+                'post'=>$this->SendFriendRequest,
                 'user'=>$notifiable
         ];
     }
@@ -60,7 +60,7 @@ class NewPost extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-                'post'=>$this->new_post,
+                'post'=>$this->SendFriendRequest,
                 'user'=>$notifiable
         ]);
     }

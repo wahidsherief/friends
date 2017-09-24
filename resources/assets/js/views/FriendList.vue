@@ -1,5 +1,12 @@
 <template>
     <section class="feed-area">
+        <div class="row">
+            <navigation-section :userid='userid'
+                            :username='username'
+                            :profilepic='profile_pic'
+                            :unreads='unreads'>
+            </navigation-section>
+        </div>
         <div class="post-section">
             <div class="card post">
                 <div class="card-body">
@@ -51,21 +58,37 @@
 
 <script>
     import FriendsTopMenu from '../components/FriendsTopMenu';
+    import NavigationSection from '../components/NavigationSection';
+
     export default {
+        props:['userid', 'unreads'],
+
     	components: {
-            FriendsTopMenu
+            FriendsTopMenu,
+            NavigationSection
         },
+
         data() {
            return {
                 friends: [],
-           } 
+                username: '',
+                profile_pic: ''
+            }
         },
 
         created() {
             this.getFriendList();
+            this.getNavInfo();
         },
 
         methods: {
+            getNavInfo() {
+                axios.get('get_nav_info').then(response => {
+                    this.username = response.data.username;
+                    this.profile_pic = response.data.profile_pic;
+                })
+            },
+
             getFriendList() {
                 axios.get('/get_friendlist').then(response => this.friends = response.data);
             },

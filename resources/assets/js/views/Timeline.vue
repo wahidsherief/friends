@@ -1,5 +1,12 @@
 <template>
     <section class='feed-area'>
+        <div class="row">
+            <navigation-section :userid='userid'
+                            :username='username'
+                            :profilepic='profile_pic'
+                            :unreads='unreads'>
+            </navigation-section>
+        </div>
         <profile-header></profile-header>
         <br>
         <div class="post-section" v-for="(post,index) in posts">
@@ -99,21 +106,34 @@
     import Post from '../models/Post';
     import CommentInput from '../components/CommentInput';
     import ProfileHeader from '../components/ProfileHeader';
+    import NavigationSection from '../components/NavigationSection';
 
     export default {
-        components: {ProfileHeader, CommentInput},
+        props:['userid', 'unreads'],
+        
+        components: {ProfileHeader, CommentInput, NavigationSection},
 
         data() {
             return {
                 posts: [],
+                username: '',
+                profile_pic: ''
             }
         },
 
         created() {
             Post.all(posts => this.posts = posts);
+            this.getNavInfo();
         },
 
         methods: {
+            getNavInfo() {
+                axios.get('get_nav_info').then(response => {
+                    this.username = response.data.username;
+                    this.profile_pic = response.data.profile_pic;
+                })
+            },
+
             postedOn(post) {
                 return moment(post.created_at).fromNow();
             },

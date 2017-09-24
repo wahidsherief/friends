@@ -363,3 +363,11 @@ li.dropdown .icon {
 .navbar .navbar-collapse .navbar-nav > li.dropdown:hover:after {
     transform: translate(-50%, 1px) !important;
 }
+
+body .app-container > div:first-child, body .app-container > ui-view > div:first-child, body .app-container > ui-view > ui-view > div:first-child, body .app-container > ui-view > ui-view > ui-view > div:first-child {
+    margin-top:0px;
+}
+
+.navbar {
+    margin-bottom: -20px;
+}

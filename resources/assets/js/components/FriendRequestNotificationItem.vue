@@ -1,7 +1,7 @@
 <template>
 	<li>
 		<a>
-			<!-- {{ notification.post.firstname }} {{ notification.post.lastname }} posted now  -->
+			{{ notification.data.user.firstname }} sent a friend request to you.
 		</a>
 	</li>
 </template>

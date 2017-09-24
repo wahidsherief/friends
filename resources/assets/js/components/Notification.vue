@@ -7,11 +7,11 @@
 		</a>
 		<div class="dropdown-menu">
 			<ul>
-				<!-- <notification-item v-for='unread in unreads' :notification='unread'></notification-item> -->
+				<notification-item v-for='unread in unreads' :notification='unread'></notification-item>
 
 				  
 				<li class="dropdown-footer">
-				    <a href="#">View All {{ userid }}<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+				    <a href="#">View All<i class="fa fa-angle-right" aria-hidden="true"></i></a>
 				</li>
 			</ul>
 		</div>
@@ -34,16 +34,24 @@
 		},
 
 		mounted() {
-    	window.Echo.private('App.User.' + this.userid)
-    		.notification((notification) => {
-        		console.log(notification);
-        		let newUnreadNotifications = {
-        			data: {
-        				post:notification
+			var popup = false;
+			var newUnreadNotifications;
+    		window.Echo.private('App.User.' + this.userid)
+    			.notification((notification) => {
+    				var type_string = notification.type.split("\\");
+					var type = type_string[2];
+					if(type == 'NewPost'){
+	        			console.log(notification);
+	        			popup = true;
+	        			newUnreadNotifications = {
+	        			data: {
+	        				post:notification
+	        			}
         			}
         		};
-
-        		this.unreadNotifications.push(newUnreadNotifications);
+        		if (popup == true){
+        			this.unreadNotifications.push(newUnreadNotifications);
+        		}
     		});
 		},
 

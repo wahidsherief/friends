@@ -24,61 +24,6 @@
 		        </li>
 		      </ul>
 		      <ul class="nav navbar-nav navbar-right">
-		        <li class="dropdown notification">
-		            
-		          <a class="dropdown-toggle" data-toggle="dropdown">
-		            <router-link to='friends' exact>
-		            <div class="icon"><i class="fa fa-users" aria-hidden="true"></i></div>
-		            <div class="title">Unread Messages</div>
-		            <div class="count">99</div>
-
-		            </router-link>    
-		          </a>
-		          <div class="dropdown-menu">
-		            <ul>
-		              <li class="dropdown-header">Message</li>
-		              <li>
-		                <a href="#">
-		                  <span class="badge badge-warning pull-right">10</span>
-		                  <div class="message">
-		                    <img class="profile" src="https://placehold.it/100x100">
-		                    <div class="content">
-		                      <div class="title">"Payment Confirmation.."</div>
-		                      <div class="description">Alan Anderson</div>
-		                    </div>
-		                  </div>
-		                </a>
-		              </li>
-		              <li>
-		                <a href="#">
-		                  <span class="badge badge-warning pull-right">5</span>
-		                  <div class="message">
-		                    <img class="profile" src="https://placehold.it/100x100">
-		                    <div class="content">
-		                      <div class="title">"Hello World"</div>
-		                      <div class="description">Marco  Harmon</div>
-		                    </div>
-		                  </div>
-		                </a>
-		              </li>
-		              <li>
-		                <a href="#">
-		                  <span class="badge badge-warning pull-right">2</span>
-		                  <div class="message">
-		                    <img class="profile" src="https://placehold.it/100x100">
-		                    <div class="content">
-		                      <div class="title">"Order Confirmation.."</div>
-		                      <div class="description">Brenda Lawson</div>
-		                    </div>
-		                  </div>
-		                </a>
-		              </li>
-		              <li class="dropdown-footer">
-		                <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-		              </li>
-		            </ul>
-		          </div>
-		        </li>
 		        <li class="dropdown notification warning">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		            <div class="icon"><i class="fa fa-comments" aria-hidden="true"></i></div>
@@ -130,7 +75,9 @@
 		            </ul>
 		          </div>
 		        </li>
-		        <notification :userid='userid' :unreads='unreads'></notification>
+		        <friend-request-notification :userid='userid' :unreads='friendRequests'>
+		        </friend-request-notification>
+		        <notification :userid='userid' :unreads='otherNotifications'></notification>
 		        <li class="dropdown profile">
 		          <a href="/html/pages/profile.html" class="dropdown-toggle"  data-toggle="dropdown">
 		            <img class="profile-img-top-nav profile-img" :src="profilepic">
@@ -162,11 +109,56 @@
 
 <script>
 	import Notification from '../components/Notification';
+	import FriendRequestNotification from '../components/FriendRequestNotification';
 
 	export default {
 		props:['userid', 'unreads', 'username', 'profilepic'],
+
 		components: {
-			Notification
+			Notification,
+			FriendRequestNotification
+		},
+
+		data() {
+			return {
+				friendRequests: [],
+				otherNotifications: [],
+			}
+		},
+
+		created() {
+			this.friendRequests = this.getFriendRequestsNotifications();
+			this.otherNotifications = this.getOthersNotifications();
+		},
+
+		methods: {
+			getFriendRequestsNotifications() {
+				var notifications = [];
+
+				this.unreads.forEach(function(n) {
+					var type_string = n.type.split("\\");
+					var type = type_string[2];
+					if(type == "SendFriendRequest") {
+		            	notifications.push(n);
+					}
+	        	});
+
+	        	return notifications;
+			},
+
+			getOthersNotifications() {
+				var notifications = [];
+
+				this.unreads.forEach(function(n) {
+					var type_string = n.type.split("\\");
+					var type = type_string[2];
+					if(type == "NewPost") {
+		            	notifications.push(n);
+					}
+	        	});
+
+	        	return notifications;
+			}
 		}
 	}
 </script>
