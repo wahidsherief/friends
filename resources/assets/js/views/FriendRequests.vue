@@ -87,6 +87,7 @@
 
         created() {
             this.getNavInfo();
+            this.getFriendRequest();
         },
 
         methods: {

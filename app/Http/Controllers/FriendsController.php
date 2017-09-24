@@ -84,7 +84,7 @@ class FriendsController extends Controller
 
     	$request_sent = $sender->hasSentFriendRequestTo($recipient);
 
-        $sender->notify(new SendFriendRequest($recipient));
+        $recipient->notify(new SendFriendRequest($sender));
     	
     	return response()->json($request_sent);
     }
@@ -97,6 +97,8 @@ class FriendsController extends Controller
     	$request_sender = $user->find($request_sender_id);
 
     	$request_accepted = $request_acceptor->acceptFriendRequest($request_sender);
+
+        $request_sender->notify(new NewPost($request_acceptor));
     	
     	return response()->json($request_accepted);
     }

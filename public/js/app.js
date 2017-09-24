@@ -20847,7 +20847,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['notification']
+	props: ['notification'],
+
+	created: function created() {
+		console.log(this.notification);
+	}
 });
 
 /***/ }),
@@ -21803,6 +21807,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         this.getNavInfo();
+        this.getFriendRequest();
     },
 
 
@@ -50729,24 +50734,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	mounted: function mounted() {
 		var _this = this;
 
-		var popup = false;
 		var newUnreadNotifications;
 		window.Echo.private('App.User.' + this.userid).notification(function (notification) {
+			// console.log(notification);
 			var type_string = notification.type.split("\\");
 			var type = type_string[2];
 			if (type == 'SendFriendRequest') {
-				console.log(notification);
-				popup = true;
-
-				newUnreadNotifications = {
+				var _newUnreadNotifications = {
 					data: {
-						post: notification
+						post: notification.post
 					}
 				};
+				_this.unreadFriendRequestNotifications.unshift(_newUnreadNotifications);
 			};
-			if (popup == true) {
-				_this.unreadFriendRequestNotifications.push(newUnreadNotifications);
-			}
 		});
 	},
 
@@ -50896,7 +50896,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', [_c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.user.firstname) + " sent a friend request to you.\n\t")])])
+  return _c('li', [_c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.post.firstname) + " " + _vm._s(_vm.notification.data.post.lastname) + "  sent a friend request to you.\n\t")])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

@@ -52,16 +52,16 @@ class NewPost extends Notification
     public function toDatabase($notifiable)
     {
         return [
-                'post'=>$this->new_post,
-                'user'=>$notifiable
+            'post'=>$this->new_post,
+            'user'=>$notifiable
         ];
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-                'post'=>$this->new_post,
-                'user'=>$notifiable
+            'post'=>$this->new_post,
+            'user'=>$notifiable
         ]);
     }
 }

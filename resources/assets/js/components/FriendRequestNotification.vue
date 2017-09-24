@@ -33,28 +33,22 @@
 			}
 		},
 
-
 		mounted() {
-			var popup = false;
 			var newUnreadNotifications;
     		window.Echo.private('App.User.' + this.userid)
-    			.notification((notification) => {
-    				var type_string = notification.type.split("\\");
-					var type = type_string[2];
-					if(type == 'SendFriendRequest'){
-	        			console.log(notification);
-	        			popup = true;
-
-	        			newUnreadNotifications = {
+			.notification((notification) => {
+				// console.log(notification);
+				var type_string = notification.type.split("\\");
+				var type = type_string[2];
+				if(type == 'SendFriendRequest'){
+        			let newUnreadNotifications = {
 	        			data: {
-	        				post:notification
+	        				post:notification.post
 	        			}
-        			}
-        		};
-        		if (popup == true){
-        			this.unreadFriendRequestNotifications.push(newUnreadNotifications);
-        		}
-    		});
+    				};
+    				this.unreadFriendRequestNotifications.unshift(newUnreadNotifications);
+    			};
+			});
 		},
 
 		methods: {

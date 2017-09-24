@@ -13,16 +13,16 @@ class SendFriendRequest extends Notification
 {
     use Queueable;
 
-    public $SendFriendRequest;
+    public $request_sender;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($SendFriendRequest)
+    public function __construct($request_sender)
     {
-        $this->SendFriendRequest = $SendFriendRequest;
+        $this->request_sender = $request_sender;
     }
 
     /**
@@ -52,16 +52,14 @@ class SendFriendRequest extends Notification
     public function toDatabase($notifiable)
     {
         return [
-                'post'=>$this->SendFriendRequest,
-                'user'=>$notifiable
+            'post'=>$this->request_sender
         ];
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-                'post'=>$this->SendFriendRequest,
-                'user'=>$notifiable
+            'post'=>$this->request_sender
         ]);
     }
 }

@@ -8,6 +8,11 @@
 
 <script>
 	export default {
-		props: ['notification']
+		props: ['notification'],
+	
+
+		created() {
+			console.log(this.notification);
+		}
 	}
 </script>
