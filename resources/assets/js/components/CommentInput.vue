@@ -7,7 +7,6 @@
 				</div>
 				<div class="col-xs-11">
 					<div class="media-comment">
-				        <!-- <input type="text" v-model='comment' class="form-control" placeholder="comment..."> -->
 				        <textarea v-autosize  v-model='comment' style="height: 50px;resize:none; overflow:hidden" class="form-control" placeholder="Add your comment" type="text"></textarea>
 				    </div>
 			    </div>
@@ -51,7 +50,7 @@
 
 <script>
 	export default {
-		props: ['postId'],
+		props: ['post', 'index'],
 
 		data() {
 			return {
@@ -66,7 +65,8 @@
             onSubmit() {
                 axios.post('comments', {
                 	comment: this.comment, 
-                	id: this.postId, 
+                	post: this.post, 
+                	index: this.index, 
                 	image: this.src, 
                 })
                 .then(post => this.$emit('completed'));

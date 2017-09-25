@@ -7,9 +7,7 @@
 		</a>
 		<div class="dropdown-menu">
 			<ul>
-				<notification-item v-for='unread in unreads' :notification='unread'></notification-item>
-
-				  
+				<notification-item v-for='unread in unreadNotifications' :notification='unread'></notification-item>
 				<li class="dropdown-footer">
 				    <a href="#">View All<i class="fa fa-angle-right" aria-hidden="true"></i></a>
 				</li>
@@ -20,6 +18,7 @@
 
 <script>
 	import NotificationItem from '../components/NotificationItem';
+
 	export default {
 		props:['unreads', 'userid'],
 
@@ -34,30 +33,25 @@
 		},
 
 		mounted() {
-			var popup = false;
 			var newUnreadNotifications;
     		window.Echo.private('App.User.' + this.userid)
-    			.notification((notification) => {
-    				var type_string = notification.type.split("\\");
-					var type = type_string[2];
-					if(type == 'NewPost'){
-	        			console.log(notification);
-	        			popup = true;
-	        			newUnreadNotifications = {
+			.notification((notification) => {
+				var type_string = notification.type.split("\\");
+				var type = type_string[2];
+				if(type == 'Notifications'){
+        			let newUnreadNotifications = {
 	        			data: {
-	        				post:notification
+	        				post:notification.post
 	        			}
-        			}
-        		};
-        		if (popup == true){
-        			this.unreadNotifications.push(newUnreadNotifications);
-        		}
-    		});
+    				};
+    				this.unreadNotifications.unshift(newUnreadNotifications);
+    			};
+			});
 		},
 
 		methods: {
 			marksAsRead() {
-				axios.get('mark_as_read');
+				
 			}
 		}
 	}

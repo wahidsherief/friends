@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => date_default_timezone_get(),
+    'timezone' => 'Asia/Shanghai',
 
     /*
     |--------------------------------------------------------------------------

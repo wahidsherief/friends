@@ -37,7 +37,6 @@
 			var newUnreadNotifications;
     		window.Echo.private('App.User.' + this.userid)
 			.notification((notification) => {
-				// console.log(notification);
 				var type_string = notification.type.split("\\");
 				var type = type_string[2];
 				if(type == 'SendFriendRequest'){

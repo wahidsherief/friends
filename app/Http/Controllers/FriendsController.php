@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Auth;
+use App\Notifications\Notifications;
 use App\Notifications\SendFriendRequest;
 
 class FriendsController extends Controller
@@ -98,7 +99,9 @@ class FriendsController extends Controller
 
     	$request_accepted = $request_acceptor->acceptFriendRequest($request_sender);
 
-        $request_sender->notify(new NewPost($request_acceptor));
+        $request_acceptor->notification_type = 'accept_request';
+
+        $request_sender->notify(new Notifications($request_acceptor));
     	
     	return response()->json($request_accepted);
     }

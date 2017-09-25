@@ -7,22 +7,21 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
-use Carbon;
+use App\Notifications\CommentsUpdate;
 
-class NewPost extends Notification
+class CommentsUpdate extends Notification
 {
     use Queueable;
 
-    public $new_post;
-
+    public $comment;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($newPost)
+    public function __construct($comment)
     {
-        $this->new_post = $newPost;
+        $this->comment = $comment;
     }
 
     /**
@@ -36,7 +35,19 @@ class NewPost extends Notification
         return ['database', 'broadcast'];
     }
 
-    
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
+    }
 
     /**
      * Get the array representation of the notification.
@@ -44,24 +55,24 @@ class NewPost extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray()
+    public function toArray($notifiable)
     {
-        return [];
+        return [
+            //
+        ];
     }
 
     public function toDatabase($notifiable)
     {
         return [
-            'post'=>$this->new_post,
-            'user'=>$notifiable
+            'post'=>$this->comment
         ];
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'post'=>$this->new_post,
-            'user'=>$notifiable
+            'post'=>$this->comment
         ]);
     }
 }

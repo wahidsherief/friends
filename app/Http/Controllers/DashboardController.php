@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use App\Events\NotificationEvent;
-use App\Notifications\NewPost;
+use App\Notifications\Notifications;
+use App\Notifications\CommentsUpdate;
+use App\Post;
+use App\User;
 
 class DashboardController extends Controller
 {
@@ -83,7 +86,7 @@ class DashboardController extends Controller
 
             $newPost = collect($lastPost[0]);
             
-            auth()->user()->notify(new NewPost($newPost));
+            // auth()->user()->notify(new Notifications($newPost));
             return $newPost ;
         }
     }
@@ -107,7 +110,7 @@ class DashboardController extends Controller
             return false;
         } else {
             $user_id  = Auth::id();
-            $post_id  = $request->id;
+            $post_id  = $request->post['id'];
             $comment = new \App\Comment;
             $comment->comment = $request->comment;
             $comment->post_id = $post_id;
@@ -122,8 +125,16 @@ class DashboardController extends Controller
 
             $comment->comment_image = $image_file;
             $comment->save();
+            $poster_id = $request->post['user_id'];
+            $poster = User::find($poster_id);
 
-    	   return $comment->load('user');
+            $commenter = User::find($user_id);
+            $commenter->notification_type = 'comment';
+            $commenter->post = $request->post;
+            $commenter->index = $request->index;
+
+            $poster->notify(new CommentsUpdate($commenter));
+    	    return $comment->load('user');
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use FrancescoMalatesta\LaravelReactions\Models\Reaction;
+use App\Notifications\Notifications;
 use Auth;
 use App\Post;
 use App\User;
@@ -20,8 +21,7 @@ class ReactController extends Controller
 
     public function saveReaction(Request $request)
     {
-    	
-      $post_id = $request->id;
+        $post_id = $request->id;
     	$user_id = Auth::id();
 
   		$check = $this->reactValidate($post_id, $user_id);
@@ -33,10 +33,16 @@ class ReactController extends Controller
 			return DB::table('reactables')
                 		->where('reactable_id', $post_id)->count();
   		} else {
-  			$user = User::find(Auth::id());
+  			$reacter = User::find(Auth::id());
 			$reaction = Reaction::where('name', '=', 'like')->first();
 			$thisPost = Post::find($post_id);
-			$user->reactTo($thisPost, $reaction);
+			$reacter->reactTo($thisPost, $reaction);
+
+            $poster = User::find($thisPost->user_id);
+
+            // $reacter->notification_type = 'reacts';
+
+            // $poster->notify(new Reacts($reacter));
 
 			return DB::table('reactables')
                 		->where('reactable_id', $post_id)->count();

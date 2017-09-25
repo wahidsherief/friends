@@ -26,7 +26,7 @@
                                             <div class="media-body">
                                                 <div class="media-heading">
                                                     <h4 class="title">
-                                                        {{ post.name }}
+                                                        {{ post.firstname }} {{ post.lastname }}
                                                         <span class='feelingText' v-if="post.mood != null">is feeling -- {{ post.mood }}</span>
                                                     </h4>
                                                     <h5 class="timeing">{{ postedOn(post) }}</h5>
@@ -99,7 +99,7 @@
                                         </div>
                                     </div>
                                     <!-- v-if="index == selectedPostIndex" -->
-                                    <comment-input  :postId="post.id" @completed='getCommentsByInsert(post, index)'>
+                                    <comment-input  :post="post" :index="index" @completed='getCommentsByInsert(post, index)'>
                                     </comment-input>
                                 </div>
                             </div>
@@ -140,6 +140,22 @@
             this.getNavInfo();
         },
 
+        mounted() {
+            var newUnreadNotifications;
+            window.Echo.private('App.User.' + this.userid)
+            .notification((notification) => {
+                var type_string = notification.type.split("\\");
+                var type = type_string[2];
+                if(type == 'CommentsUpdate'){
+                    if (notification.post.id != this.userid) {
+                        let post = notification.post.post;
+                        let index = notification.post.index;
+                        this.getCommentsByInsert(post, index);
+                    };  
+                }
+            });
+        },
+
         methods: {
             postedOn(post) {
                 return moment(post.created_at).fromNow();
@@ -157,7 +173,6 @@
                     .then(response => {
                         this.$set(this.posts, index, Object.assign({}, post, { comments: response.data, total_comments:  response.data.length}));
                     });
-                    // this.selectedPostIndex = index;
                     post.toggleComments =! post.toggleComments;
             },
 
@@ -175,9 +190,11 @@
             },
 
             react(post, index) {
-                axios.post('react', {id: post.id}).then(response => {
-                        this.$set(this.posts, index, Object.assign({}, post, { reacts: response.data }));
-                    });
+                axios.post('react', {
+                    id: post.id
+                }).then(response => {
+                    this.$set(this.posts, index, Object.assign({}, post, { reacts: response.data }));
+                });
             }
         }
     }

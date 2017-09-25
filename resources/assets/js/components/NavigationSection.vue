@@ -134,7 +134,6 @@
 		methods: {
 			getFriendRequestsNotifications() {
 				var notifications = [];
-
 				this.unreads.forEach(function(n) {
 					var type_string = n.type.split("\\");
 					var type = type_string[2];
@@ -148,11 +147,10 @@
 
 			getOthersNotifications() {
 				var notifications = [];
-
 				this.unreads.forEach(function(n) {
 					var type_string = n.type.split("\\");
 					var type = type_string[2];
-					if(type == "NewPost") {
+					if(type == "Notifications") {
 		            	notifications.push(n);
 					}
 	        	});
