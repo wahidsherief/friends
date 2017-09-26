@@ -86,24 +86,6 @@
                         this.hide = false;
                         this.isPostImagesPreview = false;
                     });
-                    // axios({method: this.method, url: '/posts', data: this.form})
-                //         .then((response) => {
-                //             console.log(response);
-                //             this.isLoaderVisible = false;
-                //             // Show success message
-                //             this.successMsg = response + "." + this.successMessagePath;
-                //             this.removeItems();
-                //             this.$emit('completed', post);
-                //         })
-                //         .catch((error) => {
-                //             this.isLoaderVisible = false;
-                //             this.errorMsg = error + "." + this.errorMessagePath;
-                //             this.removeItems();
-                //         });
-                // } else {
-                //     this.errorMsg = "This HTTP method is not allowed. Please use either 'put' or 'post' methods.";
-                //     this.removeItems();
-                // }
             },
 
             getMoods() {

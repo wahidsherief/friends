@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/test', function () {
-	dd(Auth::user()->unreadNotifications[0]['type']);
-});
+Route::get('/test', 'DashboardController@index');
 
 
 Route::get('/', function () {

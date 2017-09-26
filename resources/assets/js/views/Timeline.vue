@@ -103,7 +103,6 @@
 
 <script>
     import moment from 'moment';
-    import Post from '../models/Post';
     import CommentInput from '../components/CommentInput';
     import ProfileHeader from '../components/ProfileHeader';
     import NavigationSection from '../components/NavigationSection';
@@ -122,11 +121,15 @@
         },
 
         created() {
-            Post.all(posts => this.posts = posts);
+            this.getAllPosts();
             this.getNavInfo();
         },
 
         methods: {
+            getAllPosts() {
+                axios.get('/posts')
+                    .then(response => this.posts = response.data);
+            },
             getNavInfo() {
                 axios.get('get_nav_info').then(response => {
                     this.username = response.data.username;

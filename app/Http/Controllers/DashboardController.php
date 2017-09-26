@@ -23,6 +23,35 @@ class DashboardController extends Controller
         $this->comment_image_path = '/user/images/comments/';
     }
 
+    public function index()
+    {
+        // $user = Auth::user();
+        // $friends = $user->getFriends();
+        // $temp = '';
+        
+        // foreach ($friends as $key => $friend) {
+        //     $temp .= $user->id.','.$friend->id.',';
+        // }
+
+        // $friends_id = rtrim($temp,',');
+
+        // $posts = DB::select('SELECT * FROM `posts` WHERE posts.user_id IN ('. $friends_id .') group by posts.id order by posts.id DESC');
+
+        // foreach ($posts as $key => $post) {
+        //     $reacts = DB::table('reactables')->where('reactable_id', $post->id)->count();
+        //     $comments = DB::table('comments')->where('post_id', $post->id)->count();
+        //     $username = User::where('id', $post->user_id)->first(['firstname', 'lastname']);
+
+        //     $name = ucfirst($username->firstname) . " " . ucfirst($username->lastname);
+
+        //     $post->reacts = $reacts;
+        //     $post->comments = $comments;
+        //     $post->name = $name;
+        // }
+
+        // return $posts;
+    }
+
     public function getPosts()
     {
     	$posts = $this->getAllPosts();
@@ -85,7 +114,7 @@ class DashboardController extends Controller
             }
 
             $newPost = collect($lastPost[0]);
-            
+
             // auth()->user()->notify(new Notifications($newPost));
             return $newPost ;
         }
@@ -125,15 +154,15 @@ class DashboardController extends Controller
 
             $comment->comment_image = $image_file;
             $comment->save();
-            $poster_id = $request->post['user_id'];
-            $poster = User::find($poster_id);
+            // $poster_id = $request->post['user_id'];
+            // $poster = User::find($poster_id);
 
-            $commenter = User::find($user_id);
-            $commenter->notification_type = 'comment';
-            $commenter->post = $request->post;
-            $commenter->index = $request->index;
+            // $commenter = User::find($user_id);
+            // $commenter->notification_type = 'comment';
+            // $commenter->post = $request->post;
+            // $commenter->index = $request->index;
 
-            $poster->notify(new CommentsUpdate($commenter));
+            // $poster->notify(new CommentsUpdate($commenter));
     	    return $comment->load('user');
         }
     }
@@ -170,14 +199,39 @@ class DashboardController extends Controller
 
 
     private function getAllPosts() {
-        return  DB::select(
-            'SELECT p.*,
-                (SELECT COUNT(r.reactable_id) FROM reactables r WHERE p.id = r.reactable_id) AS reacts,
-                (SELECT COUNT(c.id) FROM comments c WHERE p.id = c.post_id) AS total_comments,
-                (SELECT CONCAT(u.firstname, " ", u.lastname) FROM users u WHERE p.user_id = u.id) AS name
-            FROM posts p
-            GROUP BY p.id
-            ORDER BY p.`id` DESC');
+        $user = Auth::user();
+        $friends = $user->getFriends();
+        $temp = '';
+        
+        foreach ($friends as $key => $friend) {
+            $temp .= $user->id.','.$friend->id.',';
+        }
+
+        $friends_id = rtrim($temp,',');
+
+        $posts = DB::select('SELECT * FROM `posts` WHERE posts.user_id IN ('. $friends_id .') group by posts.id order by posts.id DESC');
+
+        foreach ($posts as $key => $post) {
+            $reacts = DB::table('reactables')->where('reactable_id', $post->id)->count();
+            $comments = DB::table('comments')->where('post_id', $post->id)->count();
+            $username = User::where('id', $post->user_id)->first(['firstname', 'lastname']);
+
+            $post->reacts = $reacts;
+            $post->comments = $comments;
+            $post->firstname = $username->firstname;
+            $post->lastname = $username->lastname;
+        }
+
+        return $posts;
+
+        // return  DB::select(
+        //     'SELECT p.*,
+        //         (SELECT COUNT(r.reactable_id) FROM reactables r WHERE p.id = r.reactable_id) AS reacts,
+        //         (SELECT COUNT(c.id) FROM comments c WHERE p.id = c.post_id) AS total_comments,
+        //         (SELECT CONCAT(u.firstname, " ", u.lastname) FROM users u WHERE p.user_id = u.id) AS name
+        //     FROM posts p
+        //     GROUP BY p.id
+        //     ORDER BY p.`id` DESC');
     }
 
     private function getLastPost($postID, $userID) {

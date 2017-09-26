@@ -113,7 +113,6 @@
 
 <script>
     import moment from 'moment';
-    import Post from '../models/Post';
     import NavigationSection from '../components/NavigationSection';
     import StatusInput from '../components/StatusInput';
     import CommentInput from '../components/CommentInput';
@@ -131,12 +130,12 @@
             return {
                 posts: [],
                 username: '',
-                profile_pic: '',
+                profile_pic: ''
             }
         },
 
         created() {
-            Post.all(posts => this.posts = posts);
+            this.getAllPosts();
             this.getNavInfo();
         },
 
@@ -156,7 +155,20 @@
             });
         },
 
+        ready() {
+            this.getAllPosts();
+        },
+
         methods: {
+            getAllPosts() {
+                axios.get('/posts')
+                    .then(response => {
+                        this.posts = response.data;
+                    });
+
+                    setTimeout(this.getAllPosts, 500000);
+            },
+
             postedOn(post) {
                 return moment(post.created_at).fromNow();
             },
