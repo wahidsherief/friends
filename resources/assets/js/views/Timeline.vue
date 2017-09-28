@@ -21,7 +21,8 @@
                         <div class="media-body">
                             <div class="media-heading">
                                 <h4 class="title">
-                                    {{ post.name }}
+                                    {{ post.firstname }} {{ post.lastname
+                                     }}
                                     <span class='feelingText' v-if="post.mood != null">is feeling -- {{ post.mood }}</span>
                                 </h4>
                                 <h5 class="timeing">{{ postedOn(post) }}</h5>
@@ -127,7 +128,7 @@
 
         methods: {
             getAllPosts() {
-                axios.get('/posts')
+                axios.get('/myposts')
                     .then(response => this.posts = response.data);
             },
             getNavInfo() {

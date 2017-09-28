@@ -32,6 +32,7 @@ Route::get('logout', 'AuthController@logout');
 Route::get('profile', 'ProfileController@index');
 
 Route::get('posts', 'DashboardController@getPosts');
+Route::get('myposts', 'DashboardController@getMyPosts');
 Route::post('posts', 'DashboardController@insertPost');
 Route::post('getcomments', 'DashboardController@getComments');
 Route::post('comments', 'DashboardController@insertComment');
