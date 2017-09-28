@@ -8,10 +8,10 @@ use Auth;
 
 class NotificationController extends Controller
 {
-    public function readNotification()
-    {
-    	event(new NotificationEvent('hi'));
-    }
+    // public function readNotification()
+    // {
+    // 	event(new NotificationEvent('hi'));
+    // }
 
     public function markAsRead()
     {

@@ -115,7 +115,6 @@ class DashboardController extends Controller
 
             $newPost = collect($lastPost[0]);
 
-            // auth()->user()->notify(new Notifications($newPost));
             return $newPost ;
         }
     }
@@ -201,10 +200,10 @@ class DashboardController extends Controller
     private function getAllPosts() {
         $user = Auth::user();
         $friends = $user->getFriends();
-        $temp = '';
+        $temp = $user->id.',';
         
         foreach ($friends as $key => $friend) {
-            $temp .= $user->id.','.$friend->id.',';
+            $temp .= $friend->id.',';
         }
 
         $friends_id = rtrim($temp,',');

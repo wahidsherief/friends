@@ -24,7 +24,8 @@
 		        </li>
 		      </ul>
 		      <ul class="nav navbar-nav navbar-right">
-		        <li class="dropdown notification warning">
+		      	<!-- message request notifications -->
+		        <!-- <li class="dropdown notification warning">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		            <div class="icon"><i class="fa fa-comments" aria-hidden="true"></i></div>
 		            <div class="title">Unread Messages</div>
@@ -74,10 +75,16 @@
 		              </li>
 		            </ul>
 		          </div>
-		        </li>
+		        </li> -->
+
+		        <!-- friend request notifications -->
 		        <friend-request-notification :userid='userid' :unreads='friendRequests'>
 		        </friend-request-notification>
+
+		        <!-- all other notifications -->
 		        <notification :userid='userid' :unreads='otherNotifications'></notification>
+		        
+		        <!-- profile links and logout -->
 		        <li class="dropdown profile">
 		          <a href="/html/pages/profile.html" class="dropdown-toggle"  data-toggle="dropdown">
 		            <img class="profile-img-top-nav profile-img" :src="profilepic">
@@ -131,6 +138,7 @@
 			this.otherNotifications = this.getOthersNotifications();
 		},
 
+		// *** optimize both methods by axios get two types of notifications
 		methods: {
 			getFriendRequestsNotifications() {
 				var notifications = [];
@@ -150,7 +158,7 @@
 				this.unreads.forEach(function(n) {
 					var type_string = n.type.split("\\");
 					var type = type_string[2];
-					if(type == "Notifications") {
+					if(type == "Notifications" || type == "CommentsUpdate") {
 		            	notifications.push(n);
 					}
 	        	});

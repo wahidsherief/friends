@@ -20794,6 +20794,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -20818,6 +20825,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 
+	// *** optimize both methods by axios get two types of notifications
 	methods: {
 		getFriendRequestsNotifications: function getFriendRequestsNotifications() {
 			var notifications = [];
@@ -20836,7 +20844,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.unreads.forEach(function (n) {
 				var type_string = n.type.split("\\");
 				var type = type_string[2];
-				if (type == "Notifications") {
+				if (type == "Notifications" || type == "CommentsUpdate") {
 					notifications.push(n);
 				}
 			});
@@ -38091,8 +38099,6 @@ exports.install = function(Vue) {
       var tagName = el.tagName
       if (tagName == 'TEXTAREA') {
         autosize.update(el)
-      } else if (tagName == 'INPUT' && el.type == 'text') {
-        autoSizeInput(el)
       }
     },
 
@@ -38977,7 +38983,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Friends")])], 1)]), _vm._v(" "), _c('ul', {
     staticClass: "nav navbar-nav navbar-right"
-  }, [_vm._m(1), _vm._v(" "), _c('friend-request-notification', {
+  }, [_c('friend-request-notification', {
     attrs: {
       "userid": _vm.userid,
       "unreads": _vm.friendRequests
@@ -39015,7 +39021,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "to": "/profile",
       "exact": ""
     }
-  }, [_vm._v("Profile")])], 1), _vm._v(" "), _vm._m(2)])])])], 1)])])])])
+  }, [_vm._v("Profile")])], 1), _vm._v(" "), _vm._m(1)])])])], 1)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('ul', {
     staticClass: "nav navbar-nav navbar-mobile"
@@ -39046,99 +39052,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "src": "user/images/profile.png"
     }
   })])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "dropdown notification warning"
-  }, [_c('a', {
-    staticClass: "dropdown-toggle",
-    attrs: {
-      "href": "#",
-      "data-toggle": "dropdown"
-    }
-  }, [_c('div', {
-    staticClass: "icon"
-  }, [_c('i', {
-    staticClass: "fa fa-comments",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "title"
-  }, [_vm._v("Unread Messages")]), _vm._v(" "), _c('div', {
-    staticClass: "count"
-  }, [_vm._v("99")])]), _vm._v(" "), _c('div', {
-    staticClass: "dropdown-menu"
-  }, [_c('ul', [_c('li', {
-    staticClass: "dropdown-header"
-  }, [_vm._v("Message")]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('span', {
-    staticClass: "badge badge-warning pull-right"
-  }, [_vm._v("10")]), _vm._v(" "), _c('div', {
-    staticClass: "message"
-  }, [_c('img', {
-    staticClass: "profile",
-    attrs: {
-      "src": "https://placehold.it/100x100"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "content"
-  }, [_c('div', {
-    staticClass: "title"
-  }, [_vm._v("\"Payment Confirmation..\"")]), _vm._v(" "), _c('div', {
-    staticClass: "description"
-  }, [_vm._v("Alan Anderson")])])])])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('span', {
-    staticClass: "badge badge-warning pull-right"
-  }, [_vm._v("5")]), _vm._v(" "), _c('div', {
-    staticClass: "message"
-  }, [_c('img', {
-    staticClass: "profile",
-    attrs: {
-      "src": "https://placehold.it/100x100"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "content"
-  }, [_c('div', {
-    staticClass: "title"
-  }, [_vm._v("\"Hello World\"")]), _vm._v(" "), _c('div', {
-    staticClass: "description"
-  }, [_vm._v("Marco  Harmon")])])])])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('span', {
-    staticClass: "badge badge-warning pull-right"
-  }, [_vm._v("2")]), _vm._v(" "), _c('div', {
-    staticClass: "message"
-  }, [_c('img', {
-    staticClass: "profile",
-    attrs: {
-      "src": "https://placehold.it/100x100"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "content"
-  }, [_c('div', {
-    staticClass: "title"
-  }, [_vm._v("\"Order Confirmation..\"")]), _vm._v(" "), _c('div', {
-    staticClass: "description"
-  }, [_vm._v("Brenda Lawson")])])])])]), _vm._v(" "), _c('li', {
-    staticClass: "dropdown-footer"
-  }, [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("View All "), _c('i', {
-    staticClass: "fa fa-angle-right",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  })])])])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', [_c('a', {
     attrs: {
@@ -40625,7 +40538,7 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process, global) {/*!
- * Vue.js v2.4.4
+ * Vue.js v2.4.3
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -45350,7 +45263,7 @@ Object.defineProperty(Vue$3.prototype, '$ssrContext', {
   }
 });
 
-Vue$3.version = '2.4.4';
+Vue$3.version = '2.4.3';
 
 /*  */
 
