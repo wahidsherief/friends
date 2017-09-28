@@ -10,6 +10,7 @@ use App\Notifications\Notifications;
 use App\Notifications\CommentsUpdate;
 use App\Post;
 use App\User;
+use App\Comment;
 
 class DashboardController extends Controller
 {
@@ -25,36 +26,35 @@ class DashboardController extends Controller
 
     public function index()
     {
-        // $user = Auth::user();
-        // $friends = $user->getFriends();
-        // $temp = '';
-        
-        // foreach ($friends as $key => $friend) {
-        //     $temp .= $user->id.','.$friend->id.',';
-        // }
-
-        // $friends_id = rtrim($temp,',');
-
-        // $posts = DB::select('SELECT * FROM `posts` WHERE posts.user_id IN ('. $friends_id .') group by posts.id order by posts.id DESC');
-
-        // foreach ($posts as $key => $post) {
-        //     $reacts = DB::table('reactables')->where('reactable_id', $post->id)->count();
-        //     $comments = DB::table('comments')->where('post_id', $post->id)->count();
-        //     $username = User::where('id', $post->user_id)->first(['firstname', 'lastname']);
-
-        //     $name = ucfirst($username->firstname) . " " . ucfirst($username->lastname);
-
-        //     $post->reacts = $reacts;
-        //     $post->comments = $comments;
-        //     $post->name = $name;
-        // }
-
-        // return $posts;
+        $x = Comment::where('post_id', 4)->get(['user_id']);
+        foreach ($x as $key => $value) {
+            echo $value->user_id;
+        }
     }
 
     public function getPosts()
     {
-    	$posts = $this->getAllPosts();
+        $posts = $this->getAllPosts();
+
+        foreach ($posts as $post) {
+            $check_if_image_exist = $this->checkIfImageExist($post->id);
+            if ($check_if_image_exist) {
+                $postImages = $this->getPostImages($post->id);
+                foreach ($postImages as $key => $postImage) {
+                    $post->images[$key] = $this->post_image_path.$postImage->image;
+                }
+            } else {
+                $post->images = '';
+            }
+        }
+
+        return $posts;
+
+    }
+
+    public function getMyPosts()
+    {
+    	$posts = $this->getAllMyPosts();
 
         foreach ($posts as $post) {
             $check_if_image_exist = $this->checkIfImageExist($post->id);
@@ -137,8 +137,9 @@ class DashboardController extends Controller
         if ($image == null && $comment == null) {
             return false;
         } else {
-            $user_id  = Auth::id();
-            $post_id  = $request->post['id'];
+            $user_id  = Auth::id(); // who is commenting on the post
+            $post_id  = $request->post['id']; // the post where commenting
+
             $comment = new \App\Comment;
             $comment->comment = $request->comment;
             $comment->post_id = $post_id;
@@ -153,16 +154,30 @@ class DashboardController extends Controller
 
             $comment->comment_image = $image_file;
             $comment->save();
-            // $poster_id = $request->post['user_id'];
-            // $poster = User::find($poster_id);
 
-            // $commenter = User::find($user_id);
-            // $commenter->notification_type = 'comment';
-            // $commenter->post = $request->post;
-            // $commenter->index = $request->index;
+            $poster_id = $request->post['user_id']; // id of the poster who posted the post
+            $poster = User::find($poster_id);
+            $current_commenter = User::find($user_id);
 
-            // $poster->notify(new CommentsUpdate($commenter));
+            // all people who have commented
+            $commenters = Comment::where('post_id', $request->post['id'])->get(['user_id']); 
+            $comment->notification_type = 'comment';
+            $comment->post = $request->post;
+            $comment->index = $request->index;
+            $comment->username = $current_commenter->firstname ." ".$current_commenter->lastname;
+
+            $poster->notify(new CommentsUpdate($comment));
+            // $poster->notify(new Notifications($comment));
+            // foreach ($commenters as $commenter) {
+            //     $commenter = User::find($commenter->user_id);
+            //     if ($commenter->user_id != $user_id) {
+            //         $commenter->notify(new CommentsUpdate($comment));
+            //     }
+            // }
+            
+
     	    return $comment->load('user');
+
         }
     }
 
@@ -216,7 +231,7 @@ class DashboardController extends Controller
             $username = User::where('id', $post->user_id)->first(['firstname', 'lastname']);
 
             $post->reacts = $reacts;
-            $post->comments = $comments;
+            $post->total_comments = $comments;
             $post->firstname = $username->firstname;
             $post->lastname = $username->lastname;
         }
@@ -231,6 +246,26 @@ class DashboardController extends Controller
         //     FROM posts p
         //     GROUP BY p.id
         //     ORDER BY p.`id` DESC');
+    }
+
+    private function getAllMyPosts() {
+        $user = Auth::user();
+
+        $posts = DB::select('SELECT * FROM `posts` WHERE posts.user_id = '.$user->id .' group by posts.id order by posts.id DESC');
+
+        foreach ($posts as $key => $post) {
+            $reacts = DB::table('reactables')->where('reactable_id', $post->id)->count();
+            $comments = DB::table('comments')->where('post_id', $post->id)->count();
+            $username = User::where('id', $post->user_id)->first(['firstname', 'lastname']);
+
+            $post->reacts = $reacts;
+            $post->comments = $comments;
+            $post->firstname = $username->firstname;
+            $post->lastname = $username->lastname;
+        }
+
+        return $posts;
+
     }
 
     private function getLastPost($postID, $userID) {

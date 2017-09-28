@@ -20895,14 +20895,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			unreadNotifications: this.unreads
 		};
 	},
+	created: function created() {
+		console.log(this.unreads.length);
+	},
 	mounted: function mounted() {
 		var _this = this;
 
 		var newUnreadNotifications;
 		window.Echo.private('App.User.' + this.userid).notification(function (notification) {
+			// console.log(notification);
 			var type_string = notification.type.split("\\");
 			var type = type_string[2];
-			if (type == 'Notifications') {
+			if (type == 'CommentsUpdate') {
+				console.log(notification.post.username);
 				var _newUnreadNotifications = {
 					data: {
 						post: notification.post
@@ -20953,7 +20958,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	props: ['notification'],
 
 	created: function created() {
-		console.log(this.notification);
+		// console.log(this.notification);
 	}
 });
 
@@ -21623,22 +21628,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.getAllPosts();
         this.getNavInfo();
     },
-    mounted: function mounted() {
-        var _this = this;
 
-        var newUnreadNotifications;
-        window.Echo.private('App.User.' + this.userid).notification(function (notification) {
-            var type_string = notification.type.split("\\");
-            var type = type_string[2];
-            if (type == 'CommentsUpdate') {
-                if (notification.post.id != _this.userid) {
-                    var post = notification.post.post;
-                    var index = notification.post.index;
-                    _this.getCommentsByInsert(post, index);
-                };
-            }
-        });
-    },
+
+    // mounted() {
+    //     var newUnreadNotifications;
+    //     window.Echo.private('App.User.' + this.userid)
+    //     .notification((notification) => {
+    //         var type_string = notification.type.split("\\");
+    //         var type = type_string[2];
+    //         if(type == 'CommentsUpdate'){
+    //             console.log(notification);
+    //             if (notification.post.id != this.userid) {
+    //                 let post = notification.post.post;
+    //                 let index = notification.post.index;
+    //                 this.getCommentsByInsert(post, index);
+    //             };  
+    //         }
+    //     });
+    // },
+
     ready: function ready() {
         this.getAllPosts();
     },
@@ -21646,10 +21654,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         getAllPosts: function getAllPosts() {
-            var _this2 = this;
+            var _this = this;
 
             axios.get('/posts').then(function (response) {
-                _this2.posts = response.data;
+                _this.posts = response.data;
             });
 
             setTimeout(this.getAllPosts, 500000);
@@ -21658,26 +21666,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return __WEBPACK_IMPORTED_MODULE_0_moment___default()(post.created_at).fromNow();
         },
         getNavInfo: function getNavInfo() {
-            var _this3 = this;
+            var _this2 = this;
 
             axios.get('get_nav_info').then(function (response) {
-                _this3.username = response.data.username;
-                _this3.profile_pic = response.data.profile_pic;
+                _this2.username = response.data.username;
+                _this2.profile_pic = response.data.profile_pic;
             });
         },
         getComments: function getComments(post, index) {
-            var _this4 = this;
+            var _this3 = this;
 
             axios.post('getcomments', { id: post.id }).then(function (response) {
-                _this4.$set(_this4.posts, index, Object.assign({}, post, { comments: response.data, total_comments: response.data.length }));
+                _this3.$set(_this3.posts, index, Object.assign({}, post, { comments: response.data, total_comments: response.data.length }));
             });
             post.toggleComments = !post.toggleComments;
         },
         getCommentsByInsert: function getCommentsByInsert(post, index) {
-            var _this5 = this;
+            var _this4 = this;
 
             axios.post('getcomments', { id: post.id }).then(function (response) {
-                _this5.$set(_this5.posts, index, Object.assign({}, post, { comments: response.data, total_comments: response.data.length }));
+                _this4.$set(_this4.posts, index, Object.assign({}, post, { comments: response.data, total_comments: response.data.length }));
             });
         },
         addRecentPost: function addRecentPost(post) {
@@ -21685,12 +21693,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             window.scrollTo(0, 0);
         },
         react: function react(post, index) {
-            var _this6 = this;
+            var _this5 = this;
 
             axios.post('react', {
                 id: post.id
             }).then(function (response) {
-                _this6.$set(_this6.posts, index, Object.assign({}, post, { reacts: response.data }));
+                _this5.$set(_this5.posts, index, Object.assign({}, post, { reacts: response.data }));
             });
         }
     }
@@ -22196,6 +22204,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -22224,7 +22233,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getAllPosts: function getAllPosts() {
             var _this = this;
 
-            axios.get('/posts').then(function (response) {
+            axios.get('/myposts').then(function (response) {
                 return _this.posts = response.data;
             });
         },
@@ -39771,7 +39780,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', [(_vm.notification.data.post.notification_type == 'accept_request') ? _c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.post.firstname) + " " + _vm._s(_vm.notification.data.post.lastname) + " \n\t\taccepted your friend request\n\t")]) : _vm._e(), _vm._v(" "), (_vm.notification.data.post.notification_type == 'comment') ? _c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.post.firstname) + " " + _vm._s(_vm.notification.data.post.lastname) + " \n\t\tcommented on your post\n\t")]) : _vm._e(), _vm._v(" "), (_vm.notification.data.post.notification_type == 'reacts') ? _c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.post.firstname) + " " + _vm._s(_vm.notification.data.post.lastname) + " \n\t\treacted on your post\n\t")]) : _c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.post.firstname) + " " + _vm._s(_vm.notification.data.post.lastname) + " xxx\n\t")])])
+  return _c('li', [(_vm.notification.data.post.notification_type == 'accept_request') ? _c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.post.post.firstname) + " " + _vm._s(_vm.notification.data.post.post.lastname) + " \n\t\taccepted your friend request\n\t")]) : _vm._e(), _vm._v(" "), (_vm.notification.data.post.notification_type == 'comment') ? _c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.post.username) + " \n\t\tcommented on your post\n\t")]) : _vm._e(), _vm._v(" "), (_vm.notification.data.post.notification_type == 'reacts') ? _c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.post.username) + "\n\t\treacted on your post\n\t")]) : _c('a', [_vm._v("\n\t\t" + _vm._s(_vm.notification.data.post.notification_type) + "  xxx\n\t")])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -39844,7 +39853,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "media-heading"
     }, [_c('h4', {
       staticClass: "title"
-    }, [_vm._v("\n                                " + _vm._s(post.name) + "\n                                "), (post.mood != null) ? _c('span', {
+    }, [_vm._v("\n                                " + _vm._s(post.firstname) + " " + _vm._s(post.lastname) + "\n                                "), (post.mood != null) ? _c('span', {
       staticClass: "feelingText"
     }, [_vm._v("is feeling -- " + _vm._s(post.mood))]) : _vm._e()]), _vm._v(" "), _c('h5', {
       staticClass: "timeing"
