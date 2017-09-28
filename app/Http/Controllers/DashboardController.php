@@ -161,19 +161,21 @@ class DashboardController extends Controller
 
             // all people who have commented
             $commenters = Comment::where('post_id', $request->post['id'])->get(['user_id']); 
+            dd($commenters->toArray());
             $comment->notification_type = 'comment';
             $comment->post = $request->post;
             $comment->index = $request->index;
             $comment->username = $current_commenter->firstname ." ".$current_commenter->lastname;
 
             $poster->notify(new CommentsUpdate($comment));
-            // $poster->notify(new Notifications($comment));
-            // foreach ($commenters as $commenter) {
-            //     $commenter = User::find($commenter->user_id);
-            //     if ($commenter->user_id != $user_id) {
-            //         $commenter->notify(new CommentsUpdate($comment));
-            //     }
-            // }
+            foreach ($commenters as $commenter) {
+                $commenter = User::find($commenter->user_id);
+                if ($commenter->user_id != $user_id) {
+
+                    // dd('same');
+                    $commenter->notify(new CommentsUpdate($comment));
+                }
+            }
             
 
     	    return $comment->load('user');

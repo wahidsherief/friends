@@ -15,9 +15,9 @@
 			reacted on your post
 		</a>
 
-		<a v-else>
+		<!-- <a v-else>
 			{{ notification.data.post.notification_type }}  xxx
-		</a>
+		</a> -->
 	</li>
 </template>
 
